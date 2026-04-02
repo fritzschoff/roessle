@@ -7,7 +7,7 @@ import { blogPosts, users } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { BlogContent } from "@/components/blog-content";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ slug: string }>;

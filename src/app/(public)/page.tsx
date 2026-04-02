@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { blogPosts, termine } from "@/lib/schema";
 import { desc, eq, gte } from "drizzle-orm";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const [latestPost] = await db

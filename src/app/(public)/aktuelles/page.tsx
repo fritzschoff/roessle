@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { blogPosts, users } from "@/lib/schema";
 import { desc, eq } from "drizzle-orm";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Aktuelles",

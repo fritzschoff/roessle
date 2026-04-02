@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { termine } from "@/lib/schema";
 import { asc } from "drizzle-orm";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Termine",
