@@ -1,5 +1,3 @@
-export { auth as middleware } from "@/lib/auth";
-
-export const config = {
-  matcher: ["/admin/((?!login).*)"],
-};
+// Auth is handled in the admin layout via server-side redirect.
+// No middleware needed — avoids redirect loops with NextAuth's signIn page config.
+export { };
