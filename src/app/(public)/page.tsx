@@ -15,91 +15,151 @@ export default async function HomePage() {
     .limit(1);
 
   const today = new Date().toISOString().split("T")[0];
-  const [nextTermin] = await db
+  const upcomingTermine = await db
     .select()
     .from(termine)
     .where(gte(termine.datum, today))
     .orderBy(termine.datum)
-    .limit(1);
+    .limit(3);
 
   return (
-    <section className="h-[calc(100vh-4rem)] bg-gradient-to-b from-ckb-dark via-ckb-red to-ckb-dark relative flex flex-col items-center justify-center">
-      <div className="absolute inset-0 bg-black/40" />
+    <div className="bg-white relative overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative min-h-[calc(100vh-105px)] flex flex-col">
+        <div className="flex-1 px-6 sm:px-10 lg:px-16 pt-16 sm:pt-24 pb-12 relative z-10">
+          {/* Mobile title */}
+          <div className="sm:hidden mb-6">
+            <p className="font-lobster text-xs text-black">Offizielle Website der</p>
+            <p className="font-lobster text-2xl text-black">Cannstatter Kurve</p>
+            <p className="font-lobster text-2xl text-black">Berlin 08</p>
+          </div>
 
-      <div className="relative z-10 flex flex-col items-center gap-6 px-4 text-center text-white">
-        <Image
-          src="/images/logo-ckb.svg"
-          alt="CKB Logo"
-          width={128}
-          height={128}
-          className="h-24 sm:h-32 w-auto"
-          priority
-        />
-        <h1 className="font-lobster text-4xl sm:text-5xl lg:text-6xl">
-          Cannstatter Kurve Berlin
-        </h1>
-        <p className="text-lg sm:text-xl text-white/80">
-          Fern der Heimat, nah im Herzen.
-        </p>
-      </div>
+          {/* Tagline */}
+          <p className="font-lobster text-lg sm:text-2xl text-ckb-red mb-2">
+            Fern der Heimat, nah im Herzen
+          </p>
 
-      <div className="relative z-10 mt-12 flex flex-col sm:flex-row gap-4 max-w-3xl w-full px-4">
-        {latestPost ? (
-          <Link
-            href={`/aktuelles/${latestPost.slug}`}
-            className="flex-1 bg-black/60 backdrop-blur-sm rounded-lg p-5 border border-ckb-red/30 text-white hover:border-ckb-red/60 transition-colors"
-          >
-            <h2 className="font-semibold text-sm uppercase tracking-wide text-ckb-red-light mb-2">
-              Aktuelles
-            </h2>
-            <p className="font-medium">{latestPost.title}</p>
-            {latestPost.publishedAt && (
-              <p className="text-sm text-gray-400 mt-1">
-                {latestPost.publishedAt.toLocaleDateString("de-DE", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                })}
-              </p>
+          {/* Hero heading */}
+          <h1 className="text-3xl sm:text-5xl font-extrabold uppercase leading-tight tracking-tight text-black max-w-lg">
+            Die mit Abstand lauteste Kurve in Berlin
+          </h1>
+
+          {/* Description */}
+          <p className="text-xs sm:text-sm text-black mt-6 max-w-md leading-relaxed">
+            Dein Treffpunkt für Alles rund um den VfB in der Hauptstadt.
+            <br />
+            Wir freuen uns auf deinen Besuch!
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex gap-4 mt-8">
+            <Link
+              href="/ueber-uns"
+              className="bg-ckb-red text-white text-xs px-8 py-2.5 hover:bg-ckb-red-dark transition-colors"
+            >
+              Jetzt entdecken
+            </Link>
+            <Link
+              href="/mitgliedschaft"
+              className="border-2 border-black text-black text-xs px-8 py-2.5 hover:bg-black hover:text-white transition-colors"
+            >
+              Mitgliedschaft
+            </Link>
+          </div>
+        </div>
+
+        {/* Large CKB Wappen - right side, overflowing */}
+        <div className="absolute right-[-80px] top-[-60px] w-[500px] h-[700px] hidden md:block pointer-events-none select-none">
+          <Image
+            src="/images/ckb-wappen.svg"
+            alt=""
+            fill
+            className="object-contain opacity-90"
+            aria-hidden="true"
+          />
+        </div>
+        {/* Mobile wappen - smaller, top right */}
+        <div className="absolute right-[-20px] top-[-10px] w-[140px] h-[140px] md:hidden pointer-events-none select-none">
+          <Image
+            src="/images/ckb-wappen.svg"
+            alt=""
+            fill
+            className="object-contain opacity-80"
+            aria-hidden="true"
+          />
+        </div>
+
+        {/* Blog preview */}
+        <div className="px-6 sm:px-10 lg:px-16 pb-8 relative z-10">
+          <div className="border-t border-gray-200 pt-6 max-w-2xl">
+            <p className="text-xs text-ckb-red mb-2">Blog Aktuell</p>
+            {latestPost ? (
+              <>
+                <Link
+                  href={`/aktuelles/${latestPost.slug}`}
+                  className="text-sm font-bold text-black underline hover:text-ckb-red transition-colors"
+                >
+                  {latestPost.title}
+                </Link>
+                {latestPost.excerpt && (
+                  <p className="text-xs text-black mt-1 leading-relaxed">
+                    {latestPost.excerpt.length > 200
+                      ? latestPost.excerpt.slice(0, 200) + "..."
+                      : latestPost.excerpt}
+                  </p>
+                )}
+                <p className="text-xs italic text-black mt-2">
+                  <Link href={`/aktuelles/${latestPost.slug}`} className="hover:text-ckb-red transition-colors">
+                    Mehr lesen...
+                  </Link>
+                </p>
+                {latestPost.publishedAt && (
+                  <p className="text-[10px] text-black mt-2">
+                    {latestPost.publishedAt.toLocaleDateString("de-DE", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="text-xs text-gray-500">Noch keine Beiträge.</p>
             )}
-          </Link>
-        ) : (
-          <div className="flex-1 bg-black/60 backdrop-blur-sm rounded-lg p-5 border border-ckb-red/30 text-white">
-            <h2 className="font-semibold text-sm uppercase tracking-wide text-ckb-red-light mb-2">
-              Aktuelles
-            </h2>
-            <p className="text-gray-400">Noch keine Beiträge.</p>
           </div>
-        )}
+        </div>
 
-        {nextTermin ? (
-          <Link
-            href="/termine"
-            className="flex-1 bg-black/60 backdrop-blur-sm rounded-lg p-5 border border-ckb-red/30 text-white hover:border-ckb-red/60 transition-colors"
-          >
-            <h2 className="font-semibold text-sm uppercase tracking-wide text-ckb-red-light mb-2">
-              Nächster Termin
-            </h2>
-            <p className="font-medium">{nextTermin.gegner}</p>
-            <p className="text-sm text-gray-400 mt-1">
-              {new Date(nextTermin.datum).toLocaleDateString("de-DE", {
-                weekday: "long",
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-              })}{" "}
-              &middot; {nextTermin.uhrzeit} Uhr
-            </p>
-          </Link>
-        ) : (
-          <div className="flex-1 bg-black/60 backdrop-blur-sm rounded-lg p-5 border border-ckb-red/30 text-white">
-            <h2 className="font-semibold text-sm uppercase tracking-wide text-ckb-red-light mb-2">
-              Nächster Termin
-            </h2>
-            <p className="text-gray-400">Keine kommenden Termine.</p>
-          </div>
-        )}
-      </div>
-    </section>
+        {/* Match ticker */}
+        <div className="bg-black/[0.02] px-6 sm:px-10 lg:px-16 py-4 relative z-10">
+          <p className="text-xs text-ckb-red mb-2">
+            Die nächsten Spiele im Rössle:
+          </p>
+          {upcomingTermine.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {upcomingTermine.map((t) => (
+                <div key={t.id}>
+                  <p className="text-xs font-bold text-black">
+                    <Link href="/termine" className="underline hover:text-ckb-red transition-colors">
+                      {t.gegner}
+                    </Link>
+                  </p>
+                  <p className="text-xs text-black">
+                    {new Date(t.datum).toLocaleDateString("de-DE", {
+                      weekday: "long",
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "2-digit",
+                    })}
+                    , {t.uhrzeit} Uhr
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-xs text-gray-500">Keine kommenden Termine.</p>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }

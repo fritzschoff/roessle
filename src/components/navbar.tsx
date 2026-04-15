@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { MobileMenu } from "./mobile-menu";
 
 const navLinks = [
   { href: "/ueber-uns", label: "Über uns" },
   { href: "/das-roessle", label: "Das Rössle" },
-  { href: "/aktuelles", label: "Aktuelles" },
+  { href: "/aktuelles", label: "Aktuelles (Blog)" },
   { href: "/termine", label: "Termine" },
   { href: "/mitgliedschaft", label: "Mitgliedschaft" },
   { href: "/kontakt", label: "Kontakt" },
@@ -16,36 +17,41 @@ const navLinks = [
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <>
-      <nav className="bg-ckb-red text-white h-16 flex items-center px-4 sm:px-6">
-        <div className="flex items-center gap-3 flex-1">
-          <Link href="/" className="flex items-center gap-3">
-            <Image
-              src="/images/logo-ckb.svg"
-              alt="CKB Wappen"
-              width={40}
-              height={40}
-              className="h-10 w-10"
-            />
-            <span className="font-lobster text-xl hidden sm:inline">
-              Cannstatter Kurve Berlin
-            </span>
-            <span className="font-lobster text-xl sm:hidden">CKB&apos;08</span>
-          </Link>
-        </div>
+      <nav className="bg-ckb-gray h-[105px] flex items-center px-6 sm:px-10 lg:px-16">
+        <Link href="/" className="flex items-center gap-3 shrink-0">
+          <Image
+            src="/images/logo-ckb.svg"
+            alt="CKB Wappen"
+            width={56}
+            height={57}
+            className="h-14 w-14"
+          />
+          <span className="font-lobster text-xl text-black hidden sm:inline">
+            Cannstatter Kurve Berlin 08
+          </span>
+        </Link>
+
+        <div className="flex-1" />
 
         <div className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium hover:text-white/80 transition-colors"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-xs font-normal text-black hover:text-ckb-red transition-colors relative pb-1 ${
+                  isActive ? "after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-black" : ""
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
 
         <button
@@ -53,28 +59,17 @@ export function Navbar() {
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Menü öffnen"
         >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            {mobileOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
+          {mobileOpen ? (
+            <svg className="h-7 w-7" fill="none" stroke="#8d1812" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <div className="flex flex-col gap-[5px]">
+              <span className="block w-7 h-[3.5px] bg-ckb-red rounded-sm" />
+              <span className="block w-7 h-[3.5px] bg-ckb-red rounded-sm" />
+              <span className="block w-7 h-[3.5px] bg-ckb-red rounded-sm" />
+            </div>
+          )}
         </button>
       </nav>
 

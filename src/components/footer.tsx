@@ -2,30 +2,19 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="bg-ckb-dark text-gray-400">
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm">
-            &copy; {new Date().getFullYear()} Cannstatter Kurve Berlin e.V.
-          </p>
-          <div className="flex items-center gap-6 text-sm">
-            <Link href="/impressum" className="hover:text-white transition-colors">
-              Impressum
-            </Link>
-            <Link href="/datenschutz" className="hover:text-white transition-colors">
-              Datenschutzerklärung
-            </Link>
-            <a
-              href="mailto:kontakt@ckb08.de"
-              className="hover:text-white transition-colors"
-            >
-              kontakt@ckb08.de
-            </a>
-          </div>
-        </div>
-        <p className="text-center text-xs text-gray-600 mt-6">
-          Fern der Heimat, nah im Herzen.
-        </p>
+    <footer className="bg-ckb-dark py-6">
+      <div className="flex items-center justify-center gap-2 text-xs text-white">
+        <Link href="/kontakt" className="hover:text-gray-300 transition-colors">
+          Kontakt
+        </Link>
+        <span className="text-gray-500">|</span>
+        <Link href="/datenschutz" className="hover:text-gray-300 transition-colors">
+          Datenschutzerklärung
+        </Link>
+        <span className="text-gray-500">|</span>
+        <Link href="/impressum" className="hover:text-gray-300 transition-colors">
+          Impressum
+        </Link>
       </div>
     </footer>
   );

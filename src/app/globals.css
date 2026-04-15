@@ -2,11 +2,11 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-ckb-red: #96191d;
-  --color-ckb-red-dark: #7a1418;
-  --color-ckb-red-light: #b22025;
-  --color-ckb-dark: #1a1a1a;
-  --color-ckb-gray: #f5f5f5;
+  --color-ckb-red: #8d1812;
+  --color-ckb-red-dark: #721410;
+  --color-ckb-red-light: #a01e18;
+  --color-ckb-dark: #2c2c2c;
+  --color-ckb-gray: #f1f1f1;
   --font-lobster: "Lobster", cursive;
 }
 
