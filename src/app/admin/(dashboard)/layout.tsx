@@ -1,0 +1,25 @@
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
+import { SessionProvider } from "next-auth/react";
+import { AdminSidebar } from "@/components/admin-sidebar";
+
+export default async function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const session = await auth();
+
+  if (!session) {
+    redirect("/admin/login");
+  }
+
+  return (
+    <SessionProvider session={session}>
+      <div className="flex min-h-screen">
+        <AdminSidebar />
+        <div className="flex-1 bg-gray-50 p-8">{children}</div>
+      </div>
+    </SessionProvider>
+  );
+}
