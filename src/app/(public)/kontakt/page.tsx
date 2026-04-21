@@ -32,18 +32,15 @@ export default function KontaktPage() {
         <div>
           <div className="prose prose-lg max-w-none mb-8">
             <p>
-              Du hast Fragen zur Cannstatter Kurve Berlin, möchtest Mitglied
-              werden oder einfach mal vorbeischauen? Schreib uns!
+              Du hast Fragen oder möchtest aus einem anderen Grund Kontakt zu
+              uns aufnehmen? Schreib uns!
             </p>
           </div>
 
           <div className="bg-amber-50 border border-amber-300 rounded-lg p-4 mb-8">
-            <p className="font-semibold text-amber-800 text-sm">
-              Platzreservierungen sind nicht möglich! Keine Karten für Externe.
-            </p>
-            <p className="text-amber-700 text-xs mt-1">
-              Das Rössle ist unser Vereinsheim — bitte keine Anfragen zu
-              Tischreservierungen oder Ticketwünschen.
+            <p className="text-amber-800 text-sm">
+              <strong>Hinweis:</strong> Bitte seht von Reservierungswünschen und
+              Ticketanfragen ab. Wir können beides nicht erfüllen.
             </p>
           </div>
 
@@ -149,9 +146,9 @@ export default function KontaktPage() {
           <div>
             <h2 className="font-semibold text-lg mb-2">ÖPNV</h2>
             <p className="text-gray-600">
-              S-Bahn Sonnenallee (Ring)
+              S- und U-Bahn Neukölln
               <br />
-              Bus M41 bis Braunschweiger Straße
+              Bus 171 bis Zeitzer Straße
             </p>
           </div>
         </div>

@@ -33,13 +33,10 @@ export default async function TerminePage() {
     <div className="max-w-4xl mx-auto px-4 py-12">
       <h1 className="font-lobster text-4xl text-ckb-red mb-8">Termine</h1>
 
-      <div className="bg-ckb-red/10 border border-ckb-red/20 rounded-lg p-4 mb-8">
-        <p className="text-sm text-ckb-dark">
-          <strong>Hinweis:</strong> Das Rössle öffnet in der Regel 30 Minuten vor
-          Spielbeginn. Bitte achte auf die jeweilige Öffnungszeit bei den
-          einzelnen Terminen.
-        </p>
-      </div>
+      <p className="text-lg text-ckb-dark mb-8">
+        Komm vorbei und lass uns die Spiele des VfB gemeinsam erleben. Die
+        nächsten Gelegenheiten dafür:
+      </p>
 
       {upcoming.length > 0 && (
         <section className="mb-12">

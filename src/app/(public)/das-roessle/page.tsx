@@ -10,51 +10,35 @@ export default function DasRoesslePage() {
       <h1 className="font-lobster text-4xl text-ckb-red mb-8">Das Rössle</h1>
       <div className="prose prose-lg max-w-none">
         <p>
-          Das <strong>Rössle</strong> ist unser Vereinsheim und die Heimat der
-          Cannstatter Kurve Berlin in Berlin-Neukölln. Hier schauen wir gemeinsam
-          alle Spiele des VfB Stuttgart und feiern unsere schwäbische Kultur
-          fernab der Heimat.
+          Unser Vereinsheim „Rössle" ist die Heimat der Cannstatter Kurve Berlin
+          und zugleich Treffpunkt für alle VfB-Fans in der Hauptstadt. Mit Liebe
+          zum Detail haben wir uns ein zweites Wohnzimmer geschaffen, das groß
+          genug ist, um gemeinsam alle Spiele des VfB Stuttgart zu schauen und zu
+          feiern.
         </p>
-
-        <h2>Was euch erwartet</h2>
-        <ul>
-          <li>Live-Übertragung aller VfB-Spiele auf Großleinwand</li>
-          <li>Schwäbische Spezialitäten und Getränke</li>
-          <li>Gemütliche Atmosphäre unter Gleichgesinnten</li>
-          <li>VfB-Devotionalien und Vereinsdekoration</li>
-          <li>Platz für bis zu 80 Fans</li>
-        </ul>
-
-        <div className="not-prose grid gap-4 my-8">
-          <div className="bg-ckb-red/10 border border-ckb-red/20 rounded-lg p-5">
-            <p className="font-semibold text-ckb-red">Ehrenamtlich betrieben</p>
-            <p className="text-sm text-ckb-dark mt-1">
-              Das Rössle wird vollständig ehrenamtlich von unseren Mitgliedern
-              betrieben. Alle Einnahmen fließen direkt in den Verein.
-            </p>
-          </div>
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-5">
-            <p className="font-semibold text-amber-800">Tagesmitgliedschaft: 5 €</p>
-            <p className="text-sm text-amber-700 mt-1">
-              Gäste, die nicht Mitglied sind, können gegen eine
-              Tagesmitgliedschaft von 5 € an Spieltagen im Rössle mitfiebern.
-            </p>
-          </div>
-        </div>
-
-        <div className="bg-ckb-gray rounded-lg p-6 my-8 not-prose">
-          <div className="h-64 bg-gray-300 rounded flex items-center justify-center text-gray-500">
-            Foto: Das Rössle
-          </div>
-        </div>
+        <p>
+          Ehrenamtlich und nicht kommerziell, alle Einnahmen dienen dem Erhalt
+          des Rössles.
+        </p>
+        <p>
+          Das Rössle ist ein Vereinsheim und keine öffentliche Kneipe. Wer kein
+          Mitglied der CKB ist, kann gegen 5 € an der Theke eine
+          Tagesmitgliedschaft erwerben. Damit unterstützt ihr das Projekt.
+        </p>
 
         <h2>Anfahrt</h2>
         <p>
-          <strong>Braunschweiger Straße 51, 12055 Berlin-Neukölln</strong>
+          Parkplätze sind ein seltenes Gut, daher empfehlen wir eine Anfahrt mit
+          den öffentlichen Verkehrsmitteln.
         </p>
         <p>
-          <strong>ÖPNV:</strong> S-Bahn Sonnenallee (Ring), Bus M41 bis
-          Braunschweiger Straße.
+          <strong>Braunschweiger Straße 51</strong>
+          <br />
+          <strong>12055 Berlin-Neukölln</strong>
+        </p>
+        <p>
+          <strong>ÖPNV:</strong> S- und U-Bahn Neukölln, Bus 171 bis Zeitzer
+          Straße
         </p>
 
         <div className="not-prose my-8 rounded-lg overflow-hidden">
