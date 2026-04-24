@@ -1,0 +1,64 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "CKB Wappen Cannstatter Kurve Berlin 08" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "CKB Wappen" [ref=e5]
+        - generic [ref=e6]: Cannstatter Kurve Berlin 08
+      - generic [ref=e7]:
+        - link "Über uns" [ref=e8] [cursor=pointer]:
+          - /url: /ueber-uns
+        - link "Das Rössle" [ref=e9] [cursor=pointer]:
+          - /url: /das-roessle
+        - link "Aktuelles (Blog)" [ref=e10] [cursor=pointer]:
+          - /url: /aktuelles
+        - link "Termine" [ref=e11] [cursor=pointer]:
+          - /url: /termine
+        - link "Mitgliedschaft" [ref=e12] [cursor=pointer]:
+          - /url: /mitgliedschaft
+        - link "Kontakt" [ref=e13] [cursor=pointer]:
+          - /url: /kontakt
+  - main [ref=e14]:
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - paragraph [ref=e18]: Fern der Heimat, nah im Herzen
+        - heading "Die mit Abstand lauteste Kurve in Berlin" [level=1] [ref=e19]
+        - paragraph [ref=e20]:
+          - text: Dein Treffpunkt für Alles rund um den VfB in der Hauptstadt.
+          - text: Wir freuen uns auf deinen Besuch!
+        - generic [ref=e21]:
+          - link "Jetzt entdecken" [ref=e22] [cursor=pointer]:
+            - /url: /ueber-uns
+          - link "Mitgliedschaft" [ref=e23] [cursor=pointer]:
+            - /url: /mitgliedschaft
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - paragraph [ref=e26]: Blog Aktuell
+          - generic [ref=e27]:
+            - link "Union Wochenende im Rössle" [ref=e28] [cursor=pointer]:
+              - /url: /aktuelles/union-wochenende-im-roessle
+            - paragraph [ref=e29]: Mit dem Union-Wochenende startet eine neue Rössle-Saison 2025/2026.
+            - paragraph [ref=e30]:
+              - link "Mehr lesen..." [ref=e31] [cursor=pointer]:
+                - /url: /aktuelles/union-wochenende-im-roessle
+            - paragraph [ref=e32]: 15. August 2025
+        - generic [ref=e35]:
+          - paragraph [ref=e36]: "Die nächsten Spiele im Rössle:"
+          - generic [ref=e38]:
+            - paragraph [ref=e39]:
+              - link "VfB Stuttgart vs. SV Werder Bremen" [ref=e40] [cursor=pointer]:
+                - /url: /termine
+            - paragraph [ref=e41]: Sonntag, 26.04.26, 15:30 Uhr
+  - contentinfo [ref=e42]:
+    - generic [ref=e43]:
+      - link "Kontakt" [ref=e44] [cursor=pointer]:
+        - /url: /kontakt
+      - generic [ref=e45]: "|"
+      - link "Datenschutzerklärung" [ref=e46] [cursor=pointer]:
+        - /url: /datenschutz
+      - generic [ref=e47]: "|"
+      - link "Impressum" [ref=e48] [cursor=pointer]:
+        - /url: /impressum
+  - button "Open Next.js Dev Tools" [ref=e54] [cursor=pointer]:
+    - img [ref=e55]
+  - alert [ref=e58]

@@ -8,11 +8,20 @@
   --color-ckb-dark: #2c2c2c;
   --color-ckb-gray: #f1f1f1;
   --font-lobster: "Lobster", cursive;
+  --font-poplar: "PoplarStd", sans-serif;
 }
 
 @font-face {
   font-family: "Lobster";
   src: url("/fonts/Lobster-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PoplarStd";
+  src: url("/fonts/PoplarStd.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
