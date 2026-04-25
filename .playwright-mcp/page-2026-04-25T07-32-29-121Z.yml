@@ -1,0 +1,68 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic:
+        - generic:
+          - img
+      - navigation [ref=e4]:
+        - generic [ref=e5]:
+          - link "CKB Wappen Cannstatter Kurve Berlin 08" [ref=e6] [cursor=pointer]:
+            - /url: /
+            - img "CKB Wappen" [ref=e7]
+            - generic [ref=e8]: Cannstatter Kurve Berlin 08
+          - generic [ref=e9]:
+            - link "Über uns" [ref=e10] [cursor=pointer]:
+              - /url: /ueber-uns
+            - link "Das Rössle" [ref=e11] [cursor=pointer]:
+              - /url: /das-roessle
+            - link "Aktuelles (Blog)" [ref=e12] [cursor=pointer]:
+              - /url: /aktuelles
+            - link "Termine" [ref=e13] [cursor=pointer]:
+              - /url: /termine
+            - link "Mitgliedschaft" [ref=e14] [cursor=pointer]:
+              - /url: /mitgliedschaft
+            - link "Kontakt" [ref=e15] [cursor=pointer]:
+              - /url: /kontakt
+      - main [ref=e16]:
+        - generic [ref=e18]:
+          - generic [ref=e19]:
+            - paragraph [ref=e20]: Fern der Heimat, nah im Herzen
+            - heading "Die mit Abstand lauteste Kurve in Berlin" [level=1] [ref=e21]
+            - paragraph [ref=e22]:
+              - text: Dein Treffpunkt für Alles rund um den VfB in der Hauptstadt.
+              - text: Wir freuen uns auf deinen Besuch!
+            - generic [ref=e23]:
+              - link "Jetzt entdecken" [ref=e24] [cursor=pointer]:
+                - /url: /ueber-uns
+              - link "Mitgliedschaft" [ref=e25] [cursor=pointer]:
+                - /url: /mitgliedschaft
+          - generic [ref=e26]:
+            - generic [ref=e27]:
+              - paragraph [ref=e28]: Blog Aktuell
+              - generic [ref=e29]:
+                - link "Union Wochenende im Rössle" [ref=e30] [cursor=pointer]:
+                  - /url: /aktuelles/union-wochenende-im-roessle
+                - paragraph [ref=e31]: Mit dem Union-Wochenende startet eine neue Rössle-Saison 2025/2026.
+                - paragraph [ref=e32]:
+                  - link "Mehr lesen..." [ref=e33] [cursor=pointer]:
+                    - /url: /aktuelles/union-wochenende-im-roessle
+                - paragraph [ref=e34]: 15. August 2025
+            - generic [ref=e37]:
+              - paragraph [ref=e38]: "Die nächsten Spiele im Rössle:"
+              - generic [ref=e40]:
+                - paragraph [ref=e41]:
+                  - link "VfB Stuttgart vs. SV Werder Bremen" [ref=e42] [cursor=pointer]:
+                    - /url: /termine
+                - paragraph [ref=e43]: Sonntag, 26.04.26, 15:30 Uhr
+    - contentinfo [ref=e44]:
+      - generic [ref=e45]:
+        - link "Kontakt" [ref=e46] [cursor=pointer]:
+          - /url: /kontakt
+        - generic [ref=e47]: "|"
+        - link "Datenschutzerklärung" [ref=e48] [cursor=pointer]:
+          - /url: /datenschutz
+        - generic [ref=e49]: "|"
+        - link "Impressum" [ref=e50] [cursor=pointer]:
+          - /url: /impressum
+  - button "Open Next.js Dev Tools" [ref=e56] [cursor=pointer]:
+    - img [ref=e57]

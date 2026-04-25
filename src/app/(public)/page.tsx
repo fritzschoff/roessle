@@ -24,28 +24,6 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ===== FIXED DIAGONAL + WAPPEN — hovers above everything ===== */}
-      <div
-        className="hidden md:block fixed inset-0 pointer-events-none select-none z-40"
-        aria-hidden="true"
-      >
-        <div
-          className="absolute inset-0 bg-ckb-red"
-          style={{
-            clipPath: "polygon(70% 0%, 100% 0%, 100% 100%, 44% 100%)",
-          }}
-        />
-        <div className="absolute top-[2%] right-[-5%] w-[50%] h-[82%]">
-          <Image
-            src="/images/ckb-wappen.svg"
-            alt=""
-            fill
-            className="object-contain"
-            style={{ filter: "brightness(0) invert(1)", opacity: 0.92 }}
-          />
-        </div>
-      </div>
-
       {/* ===== PAGE CONTENT ===== */}
       <div className="bg-white relative">
         <section className="min-h-[calc(100vh-105px-81px)] flex flex-col">
@@ -55,7 +33,7 @@ export default async function HomePage() {
               Fern der Heimat, nah im Herzen
             </p>
 
-            <h1 className="text-[34px] sm:text-5xl font-extrabold uppercase leading-[1.05] tracking-tight text-black max-w-[90%] md:max-w-[50%] lg:max-w-lg">
+            <h1 className="text-[34px] sm:text-5xl font-extrabold uppercase leading-[1.05] tracking-tight text-black max-w-[90%] lg:max-w-lg">
               Die mit Abstand lauteste Kurve in Berlin
             </h1>
 

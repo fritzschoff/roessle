@@ -1,0 +1,53 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - button "Menü öffnen" [ref=e5]
+      - generic [ref=e10]:
+        - paragraph [ref=e11]: Offizielle Website der
+        - paragraph [ref=e12]: Cannstatter Kurve
+        - paragraph [ref=e13]: Berlin 08
+      - img [ref=e17]
+  - main [ref=e18]:
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - paragraph [ref=e22]: Fern der Heimat, nah im Herzen
+        - heading "Die mit Abstand lauteste Kurve in Berlin" [level=1] [ref=e23]
+        - paragraph [ref=e24]:
+          - text: Dein Treffpunkt für Alles rund um den VfB in der Hauptstadt.
+          - text: Wir freuen uns auf deinen Besuch!
+        - generic [ref=e25]:
+          - link "Jetzt entdecken" [ref=e26] [cursor=pointer]:
+            - /url: /ueber-uns
+          - link "Mitgliedschaft" [ref=e27] [cursor=pointer]:
+            - /url: /mitgliedschaft
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - paragraph [ref=e30]: Blog Aktuell
+          - generic [ref=e31]:
+            - link "Union Wochenende im Rössle" [ref=e32] [cursor=pointer]:
+              - /url: /aktuelles/union-wochenende-im-roessle
+            - paragraph [ref=e33]: Mit dem Union-Wochenende startet eine neue Rössle-Saison 2025/2026.
+            - paragraph [ref=e34]:
+              - link "Mehr lesen..." [ref=e35] [cursor=pointer]:
+                - /url: /aktuelles/union-wochenende-im-roessle
+            - paragraph [ref=e36]: 15. August 2025
+        - generic [ref=e39]:
+          - paragraph [ref=e40]: "Die nächsten Spiele im Rössle:"
+          - generic [ref=e42]:
+            - paragraph [ref=e43]:
+              - link "VfB Stuttgart vs. SV Werder Bremen" [ref=e44] [cursor=pointer]:
+                - /url: /termine
+            - paragraph [ref=e45]: Sonntag, 26.04.26, 15:30 Uhr
+  - contentinfo [ref=e46]:
+    - generic [ref=e47]:
+      - link "Kontakt" [ref=e48] [cursor=pointer]:
+        - /url: /kontakt
+      - generic [ref=e49]: "|"
+      - link "Datenschutzerklärung" [ref=e50] [cursor=pointer]:
+        - /url: /datenschutz
+      - generic [ref=e51]: "|"
+      - link "Impressum" [ref=e52] [cursor=pointer]:
+        - /url: /impressum
+  - button "Open Next.js Dev Tools" [ref=e58] [cursor=pointer]:
+    - img [ref=e59]
+  - alert [ref=e62]

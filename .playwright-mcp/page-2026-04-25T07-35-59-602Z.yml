@@ -1,0 +1,51 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic:
+        - generic:
+          - img
+      - navigation [ref=e4]:
+        - generic [ref=e5]:
+          - link "CKB Wappen" [ref=e6] [cursor=pointer]:
+            - /url: /
+            - img "CKB Wappen" [ref=e7]
+          - generic [ref=e8]:
+            - link "Über uns" [ref=e9] [cursor=pointer]:
+              - /url: /ueber-uns
+            - link "Das Rössle" [ref=e10] [cursor=pointer]:
+              - /url: /das-roessle
+            - link "Aktuelles (Blog)" [ref=e11] [cursor=pointer]:
+              - /url: /aktuelles
+            - link "Termine" [ref=e12] [cursor=pointer]:
+              - /url: /termine
+            - link "Mitgliedschaft" [ref=e13] [cursor=pointer]:
+              - /url: /mitgliedschaft
+            - link "Kontakt" [ref=e14] [cursor=pointer]:
+              - /url: /kontakt
+      - main [ref=e15]:
+        - generic [ref=e16]:
+          - heading "Über uns" [level=1] [ref=e17]
+          - generic [ref=e18]:
+            - paragraph [ref=e19]:
+              - text: Die
+              - strong [ref=e20]: Cannstatter Kurve Berlin (CKB'08)
+              - text: ist der erste offizielle Fanclub des VfB Stuttgart in der Hauptstadt. Gegründet 2008 vereinen wir VfB-Fans jeglichen Alters, Herkunft und Lebensmodells. Uns verbindet die Leidenschaft für den roten Brustring und den schwäbischen Charme. Wir positionieren uns gegen jegliche Art von Diskriminierung.
+            - paragraph [ref=e21]: Egal ob Bundesliga-Spiel, Pokal oder internationale Nächte — wir schauen gemeinsam im Rössle die Spiele unseres VfB. Gleichzeitig organisieren wir Fahrten zu Heim- und Auswärtsspielen und sind meist im Stadion vertreten.
+            - paragraph [ref=e22]:
+              - text: Wenn Du mehr erfahren möchtest, dann komm doch einfach mal bei uns im Rössle vorbei. Oder schreib' uns eine
+              - link "Mail" [ref=e23] [cursor=pointer]:
+                - /url: mailto:kontakt@ckb08.de
+              - text: .
+    - contentinfo [ref=e24]:
+      - generic [ref=e25]:
+        - link "Kontakt" [ref=e26] [cursor=pointer]:
+          - /url: /kontakt
+        - generic [ref=e27]: "|"
+        - link "Datenschutzerklärung" [ref=e28] [cursor=pointer]:
+          - /url: /datenschutz
+        - generic [ref=e29]: "|"
+        - link "Impressum" [ref=e30] [cursor=pointer]:
+          - /url: /impressum
+  - button "Open Next.js Dev Tools" [ref=e36] [cursor=pointer]:
+    - img [ref=e37]
+  - alert [ref=e40]

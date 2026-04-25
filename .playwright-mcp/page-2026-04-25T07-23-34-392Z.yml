@@ -1,0 +1,101 @@
+- generic [ref=e5]:
+  - generic [ref=e6]:
+    - generic [ref=e9]:
+      - application [active] [ref=e17]
+      - generic:
+        - generic:
+          - generic:
+            - region "Comments on canvas":
+              - button "Create new comment"
+      - generic:
+        - region "Left sidebar":
+          - generic [ref=e18]:
+            - button "Main menu" [ref=e19]:
+              - img [ref=e20]
+            - button "Expand UI for file named CKB Website" [ref=e22]:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "CKB Website, file name": CKB Website
+                    - generic: File name
+              - generic:
+                - generic:
+                  - status
+              - generic:
+                - img
+      - generic [ref=e25]:
+        - button "Multiplayer tools" [ref=e29]:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - img
+                  - generic:
+                    - generic:
+                      - img
+          - img [ref=e32]
+        - button "49%, zoom and view options" [ref=e36]:
+          - generic [ref=e37]:
+            - generic [ref=e38]: 49%
+            - img [ref=e40]
+        - generic [ref=e43]:
+          - generic [ref=e44]:
+            - button "Present" [ref=e45]:
+              - generic:
+                - img
+            - button "Prototype view" [ref=e46]:
+              - generic:
+                - img
+          - button "Share" [ref=e48]:
+            - generic:
+              - generic:
+                - generic: Share
+    - generic:
+      - generic:
+        - generic:
+          - region "Application toolbar":
+            - toolbar "Editor" [ref=e51]:
+              - generic [ref=e55]:
+                - generic [ref=e56]:
+                  - button "Move" [ref=e57]:
+                    - img
+                  - button "Hand tool" [pressed] [ref=e58]:
+                    - img
+                  - button "Comment" [ref=e59]:
+                    - img
+                - group "Frame" [ref=e61]:
+                  - button "Frame" [ref=e62]:
+                    - img
+                  - button "Region tools" [ref=e63]:
+                    - generic:
+                      - img
+                - group "Rectangle" [ref=e64]:
+                  - button "Rectangle" [ref=e65]:
+                    - img
+                  - button "Shape tools" [ref=e66]:
+                    - generic:
+                      - img
+                - group "Pen" [ref=e67]:
+                  - button "Pen" [ref=e68]:
+                    - img
+                  - button "Creation tools" [ref=e69]:
+                    - generic:
+                      - img
+                - button "Text" [ref=e70]:
+                  - img
+                - button "Actions" [ref=e71]:
+                  - img
+              - generic [ref=e76]:
+                - checkbox "Dev Mode" [ref=e78]
+                - img [ref=e80]
+  - status
+  - group [ref=e83]:
+    - alert [ref=e85]
+    - alert [ref=e87]
+  - region "Help/zoom toolbar" [ref=e91]:
+    - toolbar "Help/zoom toolbar" [ref=e93]:
+      - button "Help" [ref=e95]:
+        - img
+  - region "Manage cookies or opt out" [ref=e96]:
+    - link "Manage cookies or opt out" [ref=e97]:
+      - /url: /consent-preferences/

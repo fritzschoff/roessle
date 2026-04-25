@@ -1,0 +1,38 @@
+[    2446ms] [LOG] Running frontend commit 29244711f25109c85ce9dbbe4291938e16e94ea0 @ https://www.figma.com/design/7id8n5lcHcx3fc0NV8FPGB/CKB-Website?node-id=127-104&t=ZXqtIvm1wAZm9KBU-0:587
+[   15175ms] [WARNING] Statsig is not ready to log exposures, will retry in 1 seconds @ https://www.figma.com/webpack-artifacts/assets/vendor-core-34edd2c749031eb9.min.js.br:53
+[   15491ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://static.figma.com/webfont/1/SourceCodePro-Medium.woff2 @ https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:182
+[   15514ms] [INFO] [Fullscreen] Booting... (emscripten version 4.0.21) @ https://www.figma.com/webpack-artifacts/assets/vendor-core-34edd2c749031eb9.min.js.br:53
+[   15986ms] [INFO] [GPU] graphicsAPI:"WebGL 2", vendor:"Google Inc. (Apple)", renderer:"ANGLE (Apple, ANGLE Metal Renderer: Apple M1, Unspecified Version)" version:"OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium))" @ https://www.figma.com/webpack-artifacts/assets/vendor-core-34edd2c749031eb9.min.js.br:53
+[   15990ms] [LOG] [Fullscreen] Ready in 498.6ms @ https://www.figma.com/webpack-artifacts/assets/vendor-core-34edd2c749031eb9.min.js.br:53
+[   16100ms] [INFO] [FullscreenApp] calling setEditorTheme and setting preference light @ https://www.figma.com/webpack-artifacts/assets/vendor-core-34edd2c749031eb9.min.js.br:53
+[   16162ms] [INFO] [MultiplayerSession] connecting to wss://www.figma.com/api/multiplayer/7id8n5lcHcx3fc0NV8FPGB?role=editor&tracking_session_id=XUsH9AbraIzamEOw&version=151&recentReload=0&file-load-streaming-compression&scenegraph-queries-initial-nodes=127:104&client_release=29244711f25109c85ce9dbbe4291938e16e94ea0 @ https://www.figma.com/webpack-artifacts/assets/vendor-core-34edd2c749031eb9.min.js.br:53
+[   16184ms] [INFO] [MultiplayerSession] Joining file version 106 (initial load) @ https://www.figma.com/webpack-artifacts/assets/vendor-core-34edd2c749031eb9.min.js.br:53
+[   18274ms] [WARNING] Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently @ https://static.figma.com/fullscreen/bf227fc6548354b3913642bf1d66542451a818a7/fullscreen-wasm/compiled_wasm.js.br:1
+[   18291ms] [WARNING] Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently @ https://static.figma.com/fullscreen/bf227fc6548354b3913642bf1d66542451a818a7/fullscreen-wasm/compiled_wasm.js.br:1
+[   18307ms] [INFO] afterJoinEnd PageSyncing: Loaded incrementally {loaded_pages: 0:1} @ https://www.figma.com/webpack-artifacts/assets/vendor-core-34edd2c749031eb9.min.js.br:53
+[   18312ms] [INFO] [FullscreenApp] calling setEditorTheme and setting preference light @ https://www.figma.com/webpack-artifacts/assets/vendor-core-34edd2c749031eb9.min.js.br:53
+[   18412ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://www.figma.com/api/statsig/v1_ruleset:0
+[   18413ms] [ERROR] Failed to fetch v1 ruleset: T: XHR for "/api/statsig/v1_ruleset" failed with status 401
+    at N (https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:1405:11227)
+    at async Object.R [as get] (https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:1405:11610)
+    at async https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:1098:213985
+    at async g.validate (https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:1385:5960)
+    at async b (https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:1366:197510)
+    at async A (https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:1366:196714)
+    at async Object.write (https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:1366:196333) @ https://www.figma.com/webpack-artifacts/assets/vendor-core-34edd2c749031eb9.min.js.br:53
+[   18578ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://www.figma.com/api/mobile_app_push/7id8n5lcHcx3fc0NV8FPGB:0
+[   18596ms] T: XHR for "/api/mobile_app_push/7id8n5lcHcx3fc0NV8FPGB" failed with status 401
+    at N (https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:1405:11227)
+    at async N.a [as post] (https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:1405:11857)
+[   18849ms] [LOG] [Fullscreen] loadtime=18.29s maxmem=12014516 @ https://www.figma.com/webpack-artifacts/assets/vendor-core-34edd2c749031eb9.min.js.br:53
+[   19300ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://www.figma.com/api/folders/207064920:0
+[   19303ms] T: XHR for "/api/folders/207064920" failed with status 401
+    at N (https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:1405:11227)
+    at async Object.R [as get] (https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:1405:11610)
+    at async https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:1098:155872
+    at async g.validate (https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:1385:5960)
+    at async h.fetchObject (https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:349:160247)
+    at async f (https://www.figma.com/webpack-artifacts/assets/8469-f47411c60eb019a8.min.js.br:349:140551)
+[   19665ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://www.figma.com/api/design_systems/libraries_by_library_keys:0
+[   20908ms] [LOG] [import] git: 29244711f25109c85ce9dbbe4291938e16e94ea0, stamp: 828238723CF476C8 @ https://www.figma.com/webpack-artifacts/assets/vendor-core-34edd2c749031eb9.min.js.br:53
+[   21782ms] [LOG] Loaded 191 scripts (10678023b), 75 from cache (2114171b) @ https://www.figma.com/webpack-artifacts/assets/vendor-core-34edd2c749031eb9.min.js.br:53
