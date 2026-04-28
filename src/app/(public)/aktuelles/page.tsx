@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
-import { blogPosts, users } from "@/lib/schema";
+import { blogPosts } from "@/lib/schema";
 import { desc, eq } from "drizzle-orm";
 
 export const dynamic = "force-dynamic";
@@ -20,10 +20,8 @@ export default async function AktuellesPage() {
       excerpt: blogPosts.excerpt,
       imageUrl: blogPosts.imageUrl,
       publishedAt: blogPosts.publishedAt,
-      authorName: users.name,
     })
     .from(blogPosts)
-    .leftJoin(users, eq(blogPosts.authorId, users.id))
     .where(eq(blogPosts.status, "published"))
     .orderBy(desc(blogPosts.publishedAt));
 
@@ -64,12 +62,6 @@ export default async function AktuellesPage() {
                           year: "numeric",
                         })}
                       </time>
-                    )}
-                    {post.authorName && (
-                      <>
-                        <span>&middot;</span>
-                        <span>{post.authorName}</span>
-                      </>
                     )}
                   </div>
                   {post.excerpt && (

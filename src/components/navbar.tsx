@@ -9,7 +9,7 @@ import { MobileMenu } from "./mobile-menu";
 const navLinks = [
   { href: "/ueber-uns", label: "Über uns" },
   { href: "/das-roessle", label: "Das Rössle" },
-  { href: "/aktuelles", label: "Aktuelles (Blog)" },
+  { href: "/aktuelles", label: "Aktuelles" },
   { href: "/termine", label: "Termine" },
   { href: "/mitgliedschaft", label: "Mitgliedschaft" },
   { href: "/kontakt", label: "Kontakt" },
@@ -51,16 +51,16 @@ export function Navbar() {
         {/* ===== Desktop navbar (lg+) ===== */}
         <div className="hidden lg:flex items-center h-[105px] bg-ckb-gray px-10 xl:px-16">
           {/* Logo + brand name */}
-          <Link href="/" className="flex items-center gap-3 shrink-0">
+          <Link href="/" className="flex items-center gap-4 shrink-0">
             <Image
               src="/images/logo-ckb.svg"
               alt="CKB Wappen"
-              width={56}
-              height={57}
-              className="h-14 w-14"
+              width={88}
+              height={90}
+              className="h-[88px] w-[88px]"
             />
-            <span className="hidden xl:inline font-poplar text-[26px] text-black uppercase tracking-wide leading-tight">
-              Cannstatter Kurve Berlin 08
+            <span className="font-poplar text-[34px] text-black uppercase tracking-wide leading-tight">
+              CKB&rsquo;08
             </span>
           </Link>
 
@@ -79,11 +79,18 @@ export function Navbar() {
         </div>
 
         {/* ===== Tablet navbar (md – lg) ===== */}
-        <div className="hidden md:flex lg:hidden flex-col bg-ckb-gray px-6 py-5 relative overflow-hidden min-h-[130px]">
-          {/* Brand text */}
-          <Link href="/" className="relative z-10">
-            <span className="font-poplar text-[28px] text-black uppercase tracking-wide leading-tight">
-              Cannstatter Kurve Berlin 08
+        <div className="hidden md:flex lg:hidden flex-col bg-ckb-gray px-6 py-5 relative overflow-hidden min-h-[150px]">
+          {/* Logo + brand text */}
+          <Link href="/" className="relative z-10 flex items-center gap-3">
+            <Image
+              src="/images/logo-ckb.svg"
+              alt="CKB Wappen"
+              width={72}
+              height={73}
+              className="h-[72px] w-[72px]"
+            />
+            <span className="font-poplar text-[30px] text-black uppercase tracking-wide leading-tight">
+              CKB&rsquo;08
             </span>
           </Link>
 
@@ -151,12 +158,16 @@ export function Navbar() {
             </button>
 
             {/* Brand text */}
-            <div className="flex-1 text-center relative z-10 px-2">
-              <p className="font-poplar text-xl text-black uppercase leading-tight">
-                Cannstatter Kurve
-              </p>
-              <p className="font-poplar text-xl text-black uppercase leading-tight">
-                Berlin 08
+            <div className="flex-1 flex items-center justify-center gap-3 relative z-10 px-2">
+              <Image
+                src="/images/logo-ckb.svg"
+                alt="CKB Wappen"
+                width={56}
+                height={57}
+                className="h-14 w-14"
+              />
+              <p className="font-poplar text-2xl text-black uppercase leading-tight">
+                CKB&rsquo;08
               </p>
             </div>
 

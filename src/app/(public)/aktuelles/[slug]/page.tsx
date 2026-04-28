@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
-import { blogPosts, users } from "@/lib/schema";
+import { blogPosts } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { BlogContent } from "@/components/blog-content";
 
@@ -45,10 +45,8 @@ export default async function BlogPostPage({ params }: PageProps) {
       imageUrl: blogPosts.imageUrl,
       publishedAt: blogPosts.publishedAt,
       status: blogPosts.status,
-      authorName: users.name,
     })
     .from(blogPosts)
-    .leftJoin(users, eq(blogPosts.authorId, users.id))
     .where(eq(blogPosts.slug, slug))
     .limit(1);
 
@@ -88,12 +86,6 @@ export default async function BlogPostPage({ params }: PageProps) {
               year: "numeric",
             })}
           </time>
-        )}
-        {result.authorName && (
-          <>
-            <span>&middot;</span>
-            <span>{result.authorName}</span>
-          </>
         )}
       </div>
 
