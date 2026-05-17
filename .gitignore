@@ -46,3 +46,8 @@ next-env.d.ts
 
 # playwright MCP
 .playwright-mcp/
+
+# Local credentials & secrets — never commit
+.claude/credentials.md
+.claude/*.secret
+.claude/*.env
