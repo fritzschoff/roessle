@@ -28,6 +28,9 @@ export async function createBlogPost(formData: FormData) {
   const content = formData.get("content") as string;
   const imageUrl = (formData.get("imageUrl") as string) || null;
   const status = (formData.get("status") as "draft" | "published") || "draft";
+  const tickerEnabled = formData.get("tickerEnabled") === "1";
+  const tickerExpiryRaw = formData.get("tickerExpiry") as string | null;
+  const tickerExpiry = tickerExpiryRaw ? new Date(tickerExpiryRaw) : null;
 
   const suffix = ulid().slice(0, 6).toLowerCase();
   const slug = `${slugify(title)}-${suffix}`;
@@ -42,6 +45,8 @@ export async function createBlogPost(formData: FormData) {
     imageUrl,
     status,
     publishedAt: status === "published" ? new Date() : null,
+    tickerEnabled,
+    tickerExpiry,
   });
 
   revalidatePath("/aktuelles");
@@ -58,6 +63,9 @@ export async function updateBlogPost(id: string, formData: FormData) {
   const content = formData.get("content") as string;
   const imageUrl = (formData.get("imageUrl") as string) || null;
   const status = (formData.get("status") as "draft" | "published") || "draft";
+  const tickerEnabled = formData.get("tickerEnabled") === "1";
+  const tickerExpiryRaw = formData.get("tickerExpiry") as string | null;
+  const tickerExpiry = tickerExpiryRaw ? new Date(tickerExpiryRaw) : null;
 
   const [existing] = await db
     .select()
@@ -81,6 +89,8 @@ export async function updateBlogPost(id: string, formData: FormData) {
       imageUrl,
       status,
       publishedAt,
+      tickerEnabled,
+      tickerExpiry,
       updatedAt: new Date(),
     })
     .where(eq(blogPosts.id, id));

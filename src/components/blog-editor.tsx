@@ -19,6 +19,7 @@ export function BlogEditor({
   const [preview, setPreview] = useState(false);
   const [imageUrl, setImageUrl] = useState(post?.imageUrl ?? "");
   const [uploading, setUploading] = useState(false);
+  const [tickerEnabled, setTickerEnabled] = useState(post?.tickerEnabled ?? false);
   const formRef = useRef<HTMLFormElement>(null);
 
   const editor = useEditor({
@@ -147,6 +148,39 @@ export function BlogEditor({
           <option value="draft">Entwurf</option>
           <option value="published">Veröffentlicht</option>
         </select>
+      </div>
+
+      <div className="border border-gray-200 rounded-md p-4 space-y-3">
+        <p className="text-sm font-medium text-gray-700">Ticker-Einstellungen</p>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            name="tickerEnabled"
+            value="1"
+            checked={tickerEnabled}
+            onChange={(e) => setTickerEnabled(e.target.checked)}
+            className="rounded border-gray-300 text-ckb-red focus:ring-ckb-red"
+          />
+          <span className="text-sm text-gray-700">Im Ticker anzeigen</span>
+        </label>
+        {tickerEnabled && (
+          <div>
+            <label htmlFor="tickerExpiry" className="block text-sm text-gray-600 mb-1">
+              Ticker läuft bis (leer = kein Ablaufdatum)
+            </label>
+            <input
+              id="tickerExpiry"
+              name="tickerExpiry"
+              type="date"
+              defaultValue={
+                post?.tickerExpiry
+                  ? new Date(post.tickerExpiry).toISOString().split("T")[0]
+                  : ""
+              }
+              className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-ckb-red focus:ring-ckb-red"
+            />
+          </div>
+        )}
       </div>
 
       <div className="flex gap-4">

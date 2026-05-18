@@ -1,12 +1,28 @@
 import { db } from "@/lib/db";
 import { blogPosts, termine } from "@/lib/schema";
-import { desc, eq, gte } from "drizzle-orm";
+import { and, desc, eq, gte, isNull, or } from "drizzle-orm";
 import { GameBar } from "@/components/game-bar";
 import { NewsTicker } from "@/components/news-ticker";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
+  const now = new Date();
+
+  // Post for the scrolling ticker — must have tickerEnabled=true and not expired
+  const [tickerPost] = await db
+    .select()
+    .from(blogPosts)
+    .where(
+      and(
+        eq(blogPosts.status, "published"),
+        eq(blogPosts.tickerEnabled, true),
+        or(isNull(blogPosts.tickerExpiry), gte(blogPosts.tickerExpiry, now))
+      )
+    )
+    .orderBy(desc(blogPosts.publishedAt))
+    .limit(1);
+
   const [latestPost] = await db
     .select()
     .from(blogPosts)
@@ -24,11 +40,11 @@ export default async function HomePage() {
 
   return (
     <div className="bg-white relative flex flex-col min-h-[calc(100vh-100px-81px)] md:min-h-[calc(100vh-105px-81px)]">
-      {/* News ticker — only when there's a latest post */}
-      {latestPost && (
+      {/* Scrolling news ticker — only for posts with tickerEnabled and within expiry */}
+      {tickerPost && (
         <NewsTicker
-          title={latestPost.title}
-          href={`/aktuelles/${latestPost.slug}`}
+          title={tickerPost.title}
+          href={`/aktuelles/${tickerPost.slug}`}
         />
       )}
 

@@ -11,6 +11,15 @@
   --font-poplar: "PoplarStd", sans-serif;
 }
 
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@theme {
+  --animate-ticker: ticker 18s linear infinite;
+}
+
 @font-face {
   font-family: "Lobster";
   src: url("/fonts/Lobster-Regular.otf") format("opentype");

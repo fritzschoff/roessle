@@ -57,11 +57,15 @@ export function Navbar() {
               alt="CKB Wappen"
               width={88}
               height={90}
-              className="h-[88px] w-[88px]"
+              className="h-[88px] w-[88px] grayscale"
             />
-            <span className="font-poplar text-[34px] text-black uppercase tracking-wide leading-tight">
-              CKB&rsquo;08 e.V.
-            </span>
+            <Image
+              src="/images/ckb-graffiti.svg"
+              alt="Cannstatter Kurve Berlin"
+              width={260}
+              height={80}
+              className="h-[52px] w-auto"
+            />
           </Link>
 
           {/* Nav links — stay left of the red stripe area */}
@@ -87,11 +91,15 @@ export function Navbar() {
               alt="CKB Wappen"
               width={72}
               height={73}
-              className="h-[72px] w-[72px]"
+              className="h-[72px] w-[72px] grayscale"
             />
-            <span className="font-poplar text-[30px] text-black uppercase tracking-wide leading-tight">
-              CKB&rsquo;08 e.V.
-            </span>
+            <Image
+              src="/images/ckb-graffiti.svg"
+              alt="Cannstatter Kurve Berlin"
+              width={210}
+              height={65}
+              className="h-[44px] w-auto"
+            />
           </Link>
 
           {/* Nav links below brand */}
@@ -157,18 +165,22 @@ export function Navbar() {
               )}
             </button>
 
-            {/* Brand text */}
+            {/* Brand */}
             <div className="flex-1 flex items-center justify-center gap-3 relative z-10 px-2">
               <Image
                 src="/images/logo-ckb.svg"
                 alt="CKB Wappen"
                 width={56}
                 height={57}
-                className="h-14 w-14"
+                className="h-14 w-14 grayscale"
               />
-              <p className="font-poplar text-2xl text-black uppercase leading-tight">
-                CKB&rsquo;08 e.V.
-              </p>
+              <Image
+                src="/images/ckb-graffiti.svg"
+                alt="Cannstatter Kurve Berlin"
+                width={160}
+                height={50}
+                className="h-9 w-auto"
+              />
             </div>
 
             {/* Red diagonal triangle — top right, constant angle */}

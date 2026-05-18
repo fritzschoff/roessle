@@ -34,6 +34,10 @@ export const blogPosts = sqliteTable("blog_posts", {
     .notNull()
     .default("draft"),
   publishedAt: integer("published_at", { mode: "timestamp" }),
+  tickerEnabled: integer("ticker_enabled", { mode: "boolean" })
+    .notNull()
+    .default(false),
+  tickerExpiry: integer("ticker_expiry", { mode: "timestamp" }),
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
     .default(sql`(unixepoch())`),
