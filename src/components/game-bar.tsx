@@ -146,7 +146,7 @@ export function GameBar({ termine, latestPost }: Props) {
       {/* Mini upcoming games strip */}
       {rest.length > 0 && (
         <div className="bg-[#6b1010] px-4 sm:px-6 py-2 border-t border-white/10">
-          <div className="flex items-center gap-5 overflow-x-auto">
+          <div className="flex items-center gap-5 overflow-x-auto [&::-webkit-scrollbar]:hidden scrollbar-none">
             {rest.slice(0, 7).map((t) => (
               <MiniGame key={t.id} termin={t} />
             ))}
