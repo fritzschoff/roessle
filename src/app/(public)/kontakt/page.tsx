@@ -1,133 +1,31 @@
-"use client";
-
-import { useState } from "react";
 import type { Metadata } from "next";
-import { submitContact } from "@/lib/actions/contact";
+
+export const metadata: Metadata = { title: "Kontakt" };
 
 export default function KontaktPage() {
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [pending, setPending] = useState(false);
-
-  async function handleSubmit(formData: FormData) {
-    setPending(true);
-    setError(null);
-
-    const result = await submitContact(formData);
-
-    if (result.success) {
-      setSuccess(true);
-    } else if (result.error) {
-      setError(result.error);
-    }
-
-    setPending(false);
-  }
-
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
       <h1 className="font-lobster text-4xl text-ckb-red mb-8">Kontakt</h1>
 
       <div className="grid md:grid-cols-2 gap-12">
         <div>
-          <div className="prose prose-lg max-w-none mb-8">
-            <p>
-              Du hast Fragen oder möchtest aus einem anderen Grund Kontakt zu
-              uns aufnehmen? Schreib uns!
-            </p>
-          </div>
+          <p className="text-gray-700 mb-6">
+            Du hast Fragen oder möchtest aus einem anderen Grund Kontakt zu uns
+            aufnehmen? Schreib uns direkt eine E-Mail.
+          </p>
 
-          <div className="bg-amber-50 border border-amber-300 rounded-lg p-4 mb-8">
-            <p className="text-amber-800 text-sm">
-              <strong>Hinweis:</strong> Bitte seht von Reservierungswünschen und
-              Ticketanfragen ab. Wir können beides nicht erfüllen.
-            </p>
-          </div>
-
-          {success ? (
-            <div className="bg-green-50 border border-green-300 rounded-lg p-6">
-              <p className="font-semibold text-green-800">
-                Nachricht gesendet!
-              </p>
-              <p className="text-green-700 text-sm mt-1">
-                Vielen Dank für deine Nachricht. Wir melden uns so schnell wie
-                möglich bei dir.
-              </p>
-            </div>
-          ) : (
-            <form action={handleSubmit} className="space-y-4">
-              {error && (
-                <div className="bg-red-50 border border-red-300 rounded-lg p-3">
-                  <p className="text-red-800 text-sm">{error}</p>
-                </div>
-              )}
-
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium mb-1"
-                >
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  required
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-ckb-red focus:ring-1 focus:ring-ckb-red focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium mb-1"
-                >
-                  E-Mail
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-ckb-red focus:ring-1 focus:ring-ckb-red focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="nachricht"
-                  className="block text-sm font-medium mb-1"
-                >
-                  Nachricht
-                </label>
-                <textarea
-                  id="nachricht"
-                  name="nachricht"
-                  rows={5}
-                  required
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-ckb-red focus:ring-1 focus:ring-ckb-red focus:outline-none resize-vertical"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={pending}
-                className="bg-ckb-red text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-ckb-red-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {pending ? "Wird gesendet..." : "Nachricht senden"}
-              </button>
-            </form>
-          )}
+          <a
+            href="mailto:kontakt@ckb08.de"
+            className="inline-block bg-ckb-red text-white px-8 py-3 rounded-lg font-medium hover:bg-ckb-red-dark transition-colors text-sm"
+          >
+            E-Mail schreiben →
+          </a>
         </div>
 
         <div className="space-y-6">
           <div>
             <h2 className="font-semibold text-lg mb-2">E-Mail</h2>
-            <a
-              href="mailto:kontakt@ckb08.de"
-              className="text-ckb-red hover:underline"
-            >
+            <a href="mailto:kontakt@ckb08.de" className="text-ckb-red hover:underline">
               kontakt@ckb08.de
             </a>
           </div>
