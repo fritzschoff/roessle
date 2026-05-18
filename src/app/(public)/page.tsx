@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { blogPosts, termine } from "@/lib/schema";
 import { and, desc, eq, gte, isNull, or } from "drizzle-orm";
+
 import { GameBar } from "@/components/game-bar";
 import { NewsTicker } from "@/components/news-ticker";
 
@@ -23,13 +24,6 @@ export default async function HomePage() {
     .orderBy(desc(blogPosts.publishedAt))
     .limit(1);
 
-  const [latestPost] = await db
-    .select()
-    .from(blogPosts)
-    .where(eq(blogPosts.status, "published"))
-    .orderBy(desc(blogPosts.publishedAt))
-    .limit(1);
-
   const today = new Date().toISOString().split("T")[0];
   const upcomingTermine = await db
     .select()
@@ -44,6 +38,7 @@ export default async function HomePage() {
       {tickerPost && (
         <NewsTicker
           title={tickerPost.title}
+          excerpt={tickerPost.excerpt}
           href={`/aktuelles/${tickerPost.slug}`}
         />
       )}
@@ -66,7 +61,7 @@ export default async function HomePage() {
       </div>
 
       {/* Game bar — sticks to top on mobile when scrolled */}
-      <GameBar termine={upcomingTermine} latestPost={latestPost} />
+      <GameBar termine={upcomingTermine} />
     </div>
   );
 }

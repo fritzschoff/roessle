@@ -59,13 +59,9 @@ export function Navbar() {
               height={90}
               className="h-[88px] w-[88px] grayscale"
             />
-            <Image
-              src="/images/ckb-graffiti.svg"
-              alt="Cannstatter Kurve Berlin"
-              width={260}
-              height={80}
-              className="h-[52px] w-auto"
-            />
+            <span className="font-poplar text-[34px] text-black uppercase tracking-wide leading-tight">
+              CKB&rsquo;08 e.V.
+            </span>
           </Link>
 
           {/* Nav links — stay left of the red stripe area */}
@@ -93,13 +89,9 @@ export function Navbar() {
               height={73}
               className="h-[72px] w-[72px] grayscale"
             />
-            <Image
-              src="/images/ckb-graffiti.svg"
-              alt="Cannstatter Kurve Berlin"
-              width={210}
-              height={65}
-              className="h-[44px] w-auto"
-            />
+            <span className="font-poplar text-[30px] text-black uppercase tracking-wide leading-tight">
+              CKB&rsquo;08 e.V.
+            </span>
           </Link>
 
           {/* Nav links below brand */}
@@ -174,13 +166,9 @@ export function Navbar() {
                 height={57}
                 className="h-14 w-14 grayscale"
               />
-              <Image
-                src="/images/ckb-graffiti.svg"
-                alt="Cannstatter Kurve Berlin"
-                width={160}
-                height={50}
-                className="h-9 w-auto"
-              />
+              <p className="font-poplar text-2xl text-black uppercase leading-tight">
+                CKB&rsquo;08 e.V.
+              </p>
             </div>
 
             {/* Red diagonal triangle — top right, constant angle */}

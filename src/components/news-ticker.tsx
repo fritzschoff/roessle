@@ -1,28 +1,37 @@
 import Link from "next/link";
 
-export function NewsTicker({ title, href }: { title: string; href: string }) {
+export function NewsTicker({
+  title,
+  excerpt,
+  href,
+}: {
+  title: string;
+  excerpt?: string | null;
+  href: string;
+}) {
+  const text = excerpt ? `${title} — ${excerpt}` : title;
+
   return (
     <div className="bg-ckb-red py-2 overflow-hidden border-b border-white/10">
-      <div className="flex items-center gap-0">
-        <span className="shrink-0 px-4 text-white text-[11px] font-bold uppercase tracking-widest opacity-80 border-r border-white/30 mr-4">
+      <div className="flex items-center">
+        <span className="shrink-0 px-3 text-white text-[10px] font-bold uppercase tracking-widest opacity-80 border-r border-white/30 mr-0">
           Aktuelles
         </span>
-        {/* Marquee container */}
-        <div className="overflow-hidden flex-1">
-          <div className="flex whitespace-nowrap animate-ticker">
-            {/* Duplicate the content for seamless loop */}
-            {[0, 1].map((i) => (
-              <Link
-                key={i}
-                href={href}
-                className="inline-block text-white text-[11px] font-bold uppercase tracking-widest hover:underline pr-24"
-                aria-hidden={i === 1}
-                tabIndex={i === 1 ? -1 : undefined}
-              >
-                {title}
-              </Link>
-            ))}
-          </div>
+        {/* Marquee */}
+        <div className="overflow-hidden flex-1 ml-4">
+          <Link
+            href={href}
+            className="block whitespace-nowrap animate-ticker hover:opacity-80 transition-opacity"
+            style={{ display: "inline-block" }}
+          >
+            <span className="text-white text-[11px] font-bold uppercase tracking-widest pr-24">
+              {text}
+            </span>
+            {/* Second copy for seamless loop */}
+            <span className="text-white text-[11px] font-bold uppercase tracking-widest pr-24">
+              {text}
+            </span>
+          </Link>
         </div>
       </div>
     </div>
