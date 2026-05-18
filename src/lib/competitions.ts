@@ -5,7 +5,7 @@ export type Competition = {
 
 export const COMPETITIONS: Competition[] = [
   { name: "Kein Wettbewerb", logo: "" },
-  { name: "Bundesliga", logo: "/images/competitions/bundesliga.svg" },
+  { name: "Bundesliga", logo: "/images/competitions/bundesliga.png" },
   { name: "DFB-Pokal", logo: "/images/competitions/dfb-pokal.svg" },
   { name: "Champions League", logo: "/images/competitions/champions-league.svg" },
   { name: "Europa League", logo: "/images/competitions/europa-league.svg" },
