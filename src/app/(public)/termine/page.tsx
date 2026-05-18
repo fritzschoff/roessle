@@ -1,13 +1,30 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { db } from "@/lib/db";
 import { termine } from "@/lib/schema";
 import { asc } from "drizzle-orm";
+import { VFB } from "@/lib/teams";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Termine",
 };
+
+function TeamBadge({
+  src,
+  alt,
+}: {
+  src: string | null | undefined;
+  alt: string;
+}) {
+  if (!src) return null;
+  return (
+    <div className="relative w-10 h-10 shrink-0">
+      <Image src={src} alt={alt} fill className="object-contain" />
+    </div>
+  );
+}
 
 export default async function TerminePage() {
   const allTermine = await db
@@ -20,8 +37,7 @@ export default async function TerminePage() {
   const past = allTermine.filter((t) => t.datum < today).reverse();
 
   function formatDate(datum: string) {
-    const date = new Date(datum);
-    return date.toLocaleDateString("de-DE", {
+    return new Date(datum + "T12:00:00").toLocaleDateString("de-DE", {
       weekday: "long",
       day: "2-digit",
       month: "2-digit",
@@ -45,15 +61,25 @@ export default async function TerminePage() {
             {upcoming.map((t, index) => (
               <div
                 key={t.id}
-                className={`rounded-lg p-5 ${
+                className={`rounded-lg p-4 ${
                   index === 0
                     ? "bg-ckb-red text-white"
                     : "bg-ckb-gray text-ckb-dark"
                 }`}
               >
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                  <div>
-                    <p className="font-semibold text-lg">{t.gegner}</p>
+                <div className="flex items-center gap-3">
+                  <TeamBadge src={VFB.logo} alt="VfB Stuttgart" />
+                  {t.wettbewerbLogo && (
+                    <TeamBadge src={t.wettbewerbLogo} alt={t.wettbewerb ?? ""} />
+                  )}
+                  <TeamBadge
+                    src={t.gegnerLogo ?? "/images/teams/placeholder.svg"}
+                    alt={t.gegner}
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-base leading-tight truncate">
+                      VfB Stuttgart vs. {t.gegner}
+                    </p>
                     <p
                       className={`text-sm ${
                         index === 0 ? "text-white/80" : "text-gray-500"
@@ -62,7 +88,7 @@ export default async function TerminePage() {
                       {formatDate(t.datum)}
                     </p>
                   </div>
-                  <div className="text-sm sm:text-right">
+                  <div className="text-sm text-right shrink-0">
                     <p>
                       <strong>Anstoß:</strong> {t.uhrzeit} Uhr
                     </p>
@@ -77,6 +103,15 @@ export default async function TerminePage() {
                     )}
                   </div>
                 </div>
+                {t.beschreibung && (
+                  <p
+                    className={`text-xs mt-2 ${
+                      index === 0 ? "text-white/70" : "text-gray-500"
+                    }`}
+                  >
+                    {t.beschreibung}
+                  </p>
+                )}
               </div>
             ))}
           </div>
@@ -96,17 +131,20 @@ export default async function TerminePage() {
           </h2>
           <div className="space-y-3 opacity-50">
             {past.map((t) => (
-              <div key={t.id} className="rounded-lg p-5 bg-ckb-gray">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                  <div>
-                    <p className="font-semibold">{t.gegner}</p>
-                    <p className="text-sm text-gray-500">
-                      {formatDate(t.datum)}
+              <div key={t.id} className="rounded-lg p-4 bg-ckb-gray">
+                <div className="flex items-center gap-3">
+                  <TeamBadge src={VFB.logo} alt="VfB Stuttgart" />
+                  <TeamBadge
+                    src={t.gegnerLogo ?? "/images/teams/placeholder.svg"}
+                    alt={t.gegner}
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold truncate">
+                      VfB Stuttgart vs. {t.gegner}
                     </p>
+                    <p className="text-sm text-gray-500">{formatDate(t.datum)}</p>
                   </div>
-                  <div className="text-sm sm:text-right text-gray-500">
-                    <p>{t.uhrzeit} Uhr</p>
-                  </div>
+                  <p className="text-sm text-gray-500 shrink-0">{t.uhrzeit} Uhr</p>
                 </div>
               </div>
             ))}
