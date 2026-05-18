@@ -45,6 +45,9 @@ export const blogPosts = sqliteTable("blog_posts", {
 export const termine = sqliteTable("termine", {
   id: text("id").primaryKey(),
   gegner: text("gegner").notNull(),
+  gegnerLogo: text("gegner_logo"),
+  wettbewerb: text("wettbewerb"),
+  wettbewerbLogo: text("wettbewerb_logo"),
   datum: text("datum").notNull(),
   uhrzeit: text("uhrzeit").notNull(),
   ort: text("ort").notNull().default("Das Rössle"),
