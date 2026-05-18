@@ -20,13 +20,14 @@
 | Create | `public/images/competitions/{slug}.svg` | 6 competition badges |
 | Create | `src/lib/teams.ts` | TEAMS array with name + logo path |
 | Create | `src/lib/competitions.ts` | COMPETITIONS array with name + logo path |
-| Create | `src/components/game-bar.tsx` | Game display bar (server component) |
+| Create | `src/components/news-ticker.tsx` | Thin bar below navbar: "AKTUELLES: {latest title}" |
+| Create | `src/components/game-bar.tsx` | Two-column bar: dark-red game left + white blog right + mini strip below |
 | Create | `src/components/admin/termin-form.tsx` | Client form with team/competition selectors |
 | Modify | `src/lib/schema.ts` | Add 3 nullable columns, update Termin type |
 | Modify | `src/lib/actions/termine.ts` | Read new form fields in create + update |
 | Modify | `src/app/admin/(dashboard)/termine/new/page.tsx` | Use TerminForm |
 | Modify | `src/app/admin/(dashboard)/termine/[id]/edit/page.tsx` | Use TerminForm with defaults |
-| Modify | `src/app/(public)/page.tsx` | Replace bottom section with GameBar |
+| Modify | `src/app/(public)/page.tsx` | Add NewsTicker + GameBar, remove old bottom section |
 | Modify | `src/app/(public)/termine/page.tsx` | Show logos in game cards |
 | Modify | `src/components/navbar.tsx` | Add "e.V." in all 3 breakpoints |
 | Modify | `src/app/(public)/kontakt/page.tsx` | Remove form, add mailto button |
@@ -917,27 +918,53 @@ git commit -m "feat: use TerminForm in admin new/edit termine pages"
 
 ---
 
-## Task 11: Create GameBar component
+## Task 11: Create NewsTicker + GameBar components
 
 **Files:**
+- Create: `src/components/news-ticker.tsx`
 - Create: `src/components/game-bar.tsx`
 
-This server component renders the dark-red game display bar for the homepage. On mobile it will be sticky.
+The design (confirmed by stakeholder images) shows two new homepage elements:
+1. **NewsTicker** — thin dark-red strip just below the navbar: "AKTUELLES: {latest post title}"
+2. **GameBar** — two-column bottom bar:
+   - Left column (~38% width, `bg-ckb-red`): label + [VfB logo 52px] [date block] [competition badge 24px] [opponent logo 52px]
+   - Right column (white): blog post title + excerpt + "Mehr lesen" + date
+   - Below both: darker mini-games strip with scrollable upcoming games
+   - On mobile: sticky top-0, right column hidden, game fills full width
 
-- [ ] **Step 1: Create src/components/game-bar.tsx**
+- [ ] **Step 1: Create src/components/news-ticker.tsx**
+
+```tsx
+import Link from "next/link";
+
+export function NewsTicker({ title, href }: { title: string; href: string }) {
+  return (
+    <div className="bg-ckb-red px-4 sm:px-6 lg:px-8 py-2 border-b border-white/10">
+      <p className="text-white text-[11px] font-bold uppercase tracking-widest truncate">
+        <span className="opacity-60 mr-2">Aktuelles:</span>
+        <Link href={href} className="hover:underline">
+          {title}
+        </Link>
+      </p>
+    </div>
+  );
+}
+```
+
+- [ ] **Step 2: Create src/components/game-bar.tsx**
 
 ```tsx
 import Image from "next/image";
 import Link from "next/link";
 import { VFB } from "@/lib/teams";
-import type { Termin } from "@/lib/schema";
+import type { Termin, BlogPost } from "@/lib/schema";
 
 function formatShortDate(datum: string) {
   // Append noon to avoid UTC-midnight parsing shifting the date in German timezone
   const d = new Date(datum + "T12:00:00");
   const weekday = d.toLocaleDateString("de-DE", { weekday: "short" });
-  const date = d.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit" });
-  return { weekday, date };
+  const dayMonth = d.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit" });
+  return { weekday, dayMonth };
 }
 
 function TeamLogo({
@@ -952,88 +979,129 @@ function TeamLogo({
   if (!src) return null;
   return (
     <div style={{ width: size, height: size }} className="relative shrink-0">
-      <Image src={src} alt={alt} fill className="object-contain" />
+      <Image src={src} alt={alt} fill className="object-contain drop-shadow-sm" />
     </div>
   );
 }
 
 function MiniGame({ termin }: { termin: Termin }) {
-  const { weekday, date } = formatShortDate(termin.datum);
+  const { weekday, dayMonth } = formatShortDate(termin.datum);
   return (
-    <Link href="/termine" className="flex items-center gap-1.5 shrink-0 group">
-      <TeamLogo src={VFB.logo} alt="VfB Stuttgart" size={22} />
-      <div className="text-center">
-        <p className="text-[9px] font-bold text-white/90 leading-none">
-          {weekday} {date}
+    <Link
+      href="/termine"
+      className="flex items-center gap-1.5 shrink-0 hover:opacity-80 transition-opacity"
+    >
+      <TeamLogo src={VFB.logo} alt="VfB" size={20} />
+      <div className="text-center leading-none">
+        <p className="text-[8px] font-bold text-white/90">
+          {weekday} {dayMonth}
         </p>
-        <p className="text-[9px] text-white/70 leading-none">
-          {termin.uhrzeit}
-        </p>
+        <p className="text-[8px] text-white/70">{termin.uhrzeit}</p>
       </div>
       {termin.wettbewerbLogo && (
-        <TeamLogo src={termin.wettbewerbLogo} alt={termin.wettbewerb ?? ""} size={14} />
+        <TeamLogo src={termin.wettbewerbLogo} alt={termin.wettbewerb ?? ""} size={12} />
       )}
       <TeamLogo
         src={termin.gegnerLogo ?? "/images/teams/placeholder.svg"}
         alt={termin.gegner}
-        size={22}
+        size={20}
       />
     </Link>
   );
 }
 
-export function GameBar({ termine }: { termine: Termin[] }) {
-  if (termine.length === 0) return null;
+type Props = {
+  termine: Termin[];
+  latestPost?: Pick<BlogPost, "title" | "slug" | "excerpt" | "publishedAt"> | null;
+};
+
+export function GameBar({ termine, latestPost }: Props) {
+  if (termine.length === 0 && !latestPost) return null;
 
   const [next, ...rest] = termine;
-  const { weekday, date } = formatShortDate(next.datum);
 
   return (
+    // sticky on mobile so it pins below the navbar when user scrolls; static on md+
     <div className="sticky top-0 z-20 md:static">
-      {/* Main game display */}
-      <div className="bg-ckb-red px-4 sm:px-6 lg:px-8 py-3">
-        <div className="flex items-center gap-3">
-          {/* Label — hidden on very small screens */}
-          <p className="hidden sm:block text-white font-bold text-[10px] uppercase tracking-wider leading-tight shrink-0 max-w-[90px]">
-            Die nächsten Spiele live im Rössle
-          </p>
-          <div className="hidden sm:block w-px h-8 bg-white/30 shrink-0" />
+      {/* Two-column main bar */}
+      <div className="flex">
+        {/* Left column: next game (always dark red, full width on mobile) */}
+        {next && (() => {
+          const { weekday, dayMonth } = formatShortDate(next.datum);
+          return (
+            <Link
+              href="/termine"
+              className="flex flex-col justify-center gap-3 bg-ckb-red px-4 sm:px-5 py-4
+                         w-full md:w-[38%] lg:w-[32%] shrink-0"
+            >
+              <p className="text-white text-[9px] font-bold uppercase tracking-widest leading-relaxed opacity-75">
+                Die nächsten Spiele<br className="hidden sm:block" /> live im Rössle
+              </p>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <TeamLogo src={VFB.logo} alt="VfB Stuttgart" size={52} />
+                <div className="text-white">
+                  <p className="font-extrabold text-xl leading-none">{dayMonth}</p>
+                  <p className="text-xs leading-tight opacity-80 mt-0.5">
+                    {weekday}: {next.uhrzeit}
+                  </p>
+                </div>
+                {next.wettbewerbLogo && (
+                  <TeamLogo
+                    src={next.wettbewerbLogo}
+                    alt={next.wettbewerb ?? ""}
+                    size={24}
+                  />
+                )}
+                <TeamLogo
+                  src={next.gegnerLogo ?? "/images/teams/placeholder.svg"}
+                  alt={next.gegner}
+                  size={52}
+                />
+              </div>
+            </Link>
+          );
+        })()}
 
-          {/* Next game */}
-          <Link
-            href="/termine"
-            className="flex items-center gap-3 flex-1 min-w-0"
-          >
-            <TeamLogo src={VFB.logo} alt="VfB Stuttgart" size={44} />
-            <div className="text-white min-w-0">
-              <p className="font-bold text-sm leading-tight truncate">
-                {next.gegner}
+        {/* Right column: latest blog post — hidden on mobile */}
+        {latestPost && (
+          <div className="hidden md:flex flex-col justify-center flex-1 bg-white px-5 lg:px-8 py-4 min-w-0 border-t border-gray-100">
+            <Link
+              href={`/aktuelles/${latestPost.slug}`}
+              className="font-bold text-sm text-black hover:text-ckb-red transition-colors leading-snug line-clamp-2"
+            >
+              {latestPost.title}
+            </Link>
+            {latestPost.excerpt && (
+              <p className="text-xs text-gray-600 mt-1 line-clamp-2 leading-relaxed">
+                {latestPost.excerpt}
               </p>
-              <p className="text-white/80 text-xs">
-                {weekday}, {date} · {next.uhrzeit} Uhr
-              </p>
-            </div>
-            {next.wettbewerbLogo && (
-              <TeamLogo
-                src={next.wettbewerbLogo}
-                alt={next.wettbewerb ?? ""}
-                size={28}
-              />
             )}
-            <TeamLogo
-              src={next.gegnerLogo ?? "/images/teams/placeholder.svg"}
-              alt={next.gegner}
-              size={44}
-            />
-          </Link>
-        </div>
+            <div className="flex items-center gap-3 mt-2">
+              <Link
+                href={`/aktuelles/${latestPost.slug}`}
+                className="text-xs text-ckb-red hover:underline font-medium"
+              >
+                Mehr lesen...
+              </Link>
+              {latestPost.publishedAt && (
+                <span className="text-xs text-gray-400">
+                  {new Date(latestPost.publishedAt).toLocaleDateString("de-DE", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </span>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Mini upcoming strip — only when there are more games */}
+      {/* Mini upcoming games strip */}
       {rest.length > 0 && (
-        <div className="bg-ckb-red/90 px-4 sm:px-6 lg:px-8 py-2 border-t border-white/10">
-          <div className="flex items-center gap-4 overflow-x-auto scrollbar-none">
-            {rest.slice(0, 6).map((t) => (
+        <div className="bg-[#6b1010] px-4 sm:px-6 py-2 border-t border-white/10">
+          <div className="flex items-center gap-5 overflow-x-auto">
+            {rest.slice(0, 7).map((t) => (
               <MiniGame key={t.id} termin={t} />
             ))}
           </div>
@@ -1044,16 +1112,16 @@ export function GameBar({ termine }: { termine: Termin[] }) {
 }
 ```
 
-- [ ] **Step 2: Commit**
+- [ ] **Step 3: Commit**
 
 ```bash
-git add src/components/game-bar.tsx
-git commit -m "feat: add GameBar component for upcoming game display"
+git add src/components/news-ticker.tsx src/components/game-bar.tsx
+git commit -m "feat: add NewsTicker and GameBar components"
 ```
 
 ---
 
-## Task 12: Update homepage with GameBar
+## Task 12: Update homepage with NewsTicker + GameBar
 
 **Files:**
 - Modify: `src/app/(public)/page.tsx`
@@ -1061,11 +1129,11 @@ git commit -m "feat: add GameBar component for upcoming game display"
 - [ ] **Step 1: Replace the file**
 
 ```tsx
-import Link from "next/link";
 import { db } from "@/lib/db";
 import { blogPosts, termine } from "@/lib/schema";
 import { desc, eq, gte } from "drizzle-orm";
 import { GameBar } from "@/components/game-bar";
+import { NewsTicker } from "@/components/news-ticker";
 
 export const dynamic = "force-dynamic";
 
@@ -1083,85 +1151,57 @@ export default async function HomePage() {
     .from(termine)
     .where(gte(termine.datum, today))
     .orderBy(termine.datum)
-    .limit(7);
+    .limit(8);
 
   return (
-    <>
-      <div className="bg-white relative flex flex-col min-h-[calc(100vh-105px-81px)]">
-        {/* Hero */}
-        <div className="flex-1 px-6 sm:px-10 lg:px-32 pt-16 sm:pt-20 pb-8">
-          <p className="font-lobster text-lg sm:text-2xl text-ckb-red mb-1">
-            Fern der Heimat, nah im Herzen
-          </p>
+    <div className="bg-white relative flex flex-col min-h-[calc(100vh-100px-81px)] md:min-h-[calc(100vh-105px-81px)]">
+      {/* News ticker — only when there's a latest post */}
+      {latestPost && (
+        <NewsTicker
+          title={latestPost.title}
+          href={`/aktuelles/${latestPost.slug}`}
+        />
+      )}
 
-          <h1 className="text-[34px] sm:text-5xl font-extrabold uppercase leading-[1.05] tracking-tight text-black max-w-[90%] lg:max-w-lg">
-            Cannstatter Kurve Berlin
-          </h1>
+      {/* Hero — grows to fill available space */}
+      <div className="flex-1 px-6 sm:px-10 lg:px-32 pt-16 sm:pt-20 pb-8">
+        <p className="font-lobster text-lg sm:text-2xl text-ckb-red mb-1">
+          Fern der Heimat, nah im Herzen
+        </p>
 
-          <p className="text-xs text-black mt-6 max-w-md leading-relaxed">
-            Dein Treffpunkt für Alles rund um den VfB in der Hauptstadt.
-            <br />
-            Wir freuen uns auf deinen Besuch!
-          </p>
-        </div>
+        <h1 className="text-[34px] sm:text-5xl font-extrabold uppercase leading-[1.05] tracking-tight text-black max-w-[90%] lg:max-w-lg">
+          Cannstatter Kurve Berlin
+        </h1>
 
-        {/* Latest blog post */}
-        <div className="px-6 sm:px-10 lg:px-32 pb-4">
-          <div className="border-t border-gray-200 pt-4">
-            <p className="text-xs text-ckb-red mb-2">Aktuelles</p>
-            {latestPost ? (
-              <div className="max-w-xl">
-                <Link
-                  href={`/aktuelles/${latestPost.slug}`}
-                  className="text-sm font-bold text-black underline hover:text-ckb-red transition-colors"
-                >
-                  {latestPost.title}
-                </Link>
-                {latestPost.excerpt && (
-                  <p className="text-xs text-black mt-1 leading-relaxed">
-                    {latestPost.excerpt.length > 200
-                      ? latestPost.excerpt.slice(0, 200) + "..."
-                      : latestPost.excerpt}
-                  </p>
-                )}
-                <p className="text-xs italic text-black mt-2">
-                  <Link
-                    href={`/aktuelles/${latestPost.slug}`}
-                    className="hover:text-ckb-red transition-colors"
-                  >
-                    Mehr lesen...
-                  </Link>
-                </p>
-              </div>
-            ) : (
-              <p className="text-xs text-gray-500">Noch keine Beiträge.</p>
-            )}
-          </div>
-        </div>
-
-        {/* Game bar — sticky on mobile, static on desktop */}
-        <GameBar termine={upcomingTermine} />
+        <p className="text-xs text-black mt-6 max-w-md leading-relaxed">
+          Dein Treffpunkt für Alles rund um den VfB in der Hauptstadt.
+          <br />
+          Wir freuen uns auf deinen Besuch!
+        </p>
       </div>
-    </>
+
+      {/* Game bar — sticks to top on mobile when scrolled */}
+      <GameBar termine={upcomingTermine} latestPost={latestPost} />
+    </div>
   );
 }
 ```
 
 - [ ] **Step 2: Verify in browser**
 
-Open `http://localhost:3000`. Confirm:
-- Hero text is unchanged
-- Latest blog post shown below
-- Dark red GameBar appears at the bottom of the hero section
-- On mobile (≤768px): scroll down — the GameBar sticks to the top of the content area
-- On desktop: GameBar stays in flow (not sticky)
-- If no termine exist: GameBar renders nothing (no empty red bar)
+Open `http://localhost:3000`. Confirm all of:
+- News ticker bar is visible just below the navbar, showing latest blog post title; clicking links to that post
+- Hero text (tagline, h1, subtitle) unchanged
+- GameBar at bottom: left dark-red column shows VfB logo + date + competition badge + opponent logo; right white column shows blog post excerpt + "Mehr lesen"
+- Mini games strip shows remaining upcoming games in a horizontal row
+- No termine → GameBar renders nothing (no empty red bar)
+- On mobile (≤768px): right blog column is hidden; game display fills full width; scrolling makes the GameBar stick below the navbar
 
 - [ ] **Step 3: Commit**
 
 ```bash
 git add src/app/(public)/page.tsx
-git commit -m "feat: add GameBar to homepage with sticky mobile behavior"
+git commit -m "feat: add NewsTicker and GameBar to homepage"
 ```
 
 ---
