@@ -32,13 +32,23 @@ export default async function HomePage() {
     .orderBy(termine.datum)
     .limit(8);
 
+  // Build ticker body: prefer excerpt, fall back to stripped HTML content
+  const tickerBody = tickerPost
+    ? (tickerPost.excerpt ||
+        tickerPost.content
+          .replace(/<[^>]*>/g, " ")
+          .replace(/\s+/g, " ")
+          .trim()
+          .slice(0, 300))
+    : "";
+
   return (
     <div className="bg-white relative flex flex-col min-h-[calc(100vh-100px-81px)] md:min-h-[calc(100vh-105px-81px)]">
       {/* Scrolling news ticker — only for posts with tickerEnabled and within expiry */}
       {tickerPost && (
         <NewsTicker
           title={tickerPost.title}
-          excerpt={tickerPost.excerpt}
+          excerpt={tickerBody}
           href={`/aktuelles/${tickerPost.slug}`}
         />
       )}
