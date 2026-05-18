@@ -60,7 +60,7 @@ export function Navbar() {
               className="h-[88px] w-[88px]"
             />
             <span className="font-poplar text-[34px] text-black uppercase tracking-wide leading-tight">
-              CKB&rsquo;08
+              CKB&rsquo;08 e.V.
             </span>
           </Link>
 
@@ -90,7 +90,7 @@ export function Navbar() {
               className="h-[72px] w-[72px]"
             />
             <span className="font-poplar text-[30px] text-black uppercase tracking-wide leading-tight">
-              CKB&rsquo;08
+              CKB&rsquo;08 e.V.
             </span>
           </Link>
 
@@ -167,7 +167,7 @@ export function Navbar() {
                 className="h-14 w-14"
               />
               <p className="font-poplar text-2xl text-black uppercase leading-tight">
-                CKB&rsquo;08
+                CKB&rsquo;08 e.V.
               </p>
             </div>
 
