@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="bg-ckb-dark h-[38px] sm:h-[81px] flex items-center justify-center">
+    <footer className="bg-ckb-dark h-[32px] flex items-center justify-center">
       <div className="flex items-center justify-center gap-2 text-xs text-white">
         <Link
           href="/kontakt"

@@ -1,59 +1,6 @@
-import { db } from "@/lib/db";
-import { blogPosts, termine } from "@/lib/schema";
-import { and, desc, eq, gte, isNull, or } from "drizzle-orm";
-
-import { GameBar } from "@/components/game-bar";
-import { NewsTicker } from "@/components/news-ticker";
-
-export const dynamic = "force-dynamic";
-
-export default async function HomePage() {
-  const now = new Date();
-
-  // Post for the scrolling ticker — must have tickerEnabled=true and not expired
-  const [tickerPost] = await db
-    .select()
-    .from(blogPosts)
-    .where(
-      and(
-        eq(blogPosts.status, "published"),
-        eq(blogPosts.tickerEnabled, true),
-        or(isNull(blogPosts.tickerExpiry), gte(blogPosts.tickerExpiry, now))
-      )
-    )
-    .orderBy(desc(blogPosts.publishedAt))
-    .limit(1);
-
-  const today = new Date().toISOString().split("T")[0];
-  const upcomingTermine = await db
-    .select()
-    .from(termine)
-    .where(gte(termine.datum, today))
-    .orderBy(termine.datum)
-    .limit(8);
-
-  // Build ticker body: prefer excerpt, fall back to stripped HTML content
-  const tickerBody = tickerPost
-    ? (tickerPost.excerpt ||
-        tickerPost.content
-          .replace(/<[^>]*>/g, " ")
-          .replace(/\s+/g, " ")
-          .trim()
-          .slice(0, 300))
-    : "";
-
+export default function HomePage() {
   return (
-    <div className="bg-white relative flex flex-col min-h-[calc(100vh-100px-81px)] md:min-h-[calc(100vh-105px-81px)]">
-      {/* Scrolling news ticker — only for posts with tickerEnabled and within expiry */}
-      {tickerPost && (
-        <NewsTicker
-          title={tickerPost.title}
-          excerpt={tickerBody}
-          href={`/aktuelles/${tickerPost.slug}`}
-        />
-      )}
-
-      {/* Hero — grows to fill available space */}
+    <div className="bg-white flex flex-col h-full">
       <div className="flex-1 px-6 sm:px-10 lg:px-32 pt-16 sm:pt-20 pb-8">
         <p className="font-lobster text-lg sm:text-2xl text-ckb-red mb-1">
           Fern der Heimat, nah im Herzen
@@ -69,9 +16,6 @@ export default async function HomePage() {
           Wir freuen uns auf deinen Besuch!
         </p>
       </div>
-
-      {/* Game bar — sticks to top on mobile when scrolled */}
-      <GameBar termine={upcomingTermine} />
     </div>
   );
 }

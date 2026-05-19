@@ -59,8 +59,8 @@ export function Navbar() {
               height={90}
               className="h-[88px] w-[88px] grayscale"
             />
-            <span className="font-poplar text-[34px] text-black uppercase tracking-wide leading-tight">
-              CKB&rsquo;08 e.V.
+            <span className="font-lobster text-[20px] font-normal text-black leading-none tracking-normal whitespace-nowrap">
+              Cannstatter Kurve Berlin e.V.
             </span>
           </Link>
 
@@ -89,8 +89,8 @@ export function Navbar() {
               height={73}
               className="h-[72px] w-[72px] grayscale"
             />
-            <span className="font-poplar text-[30px] text-black uppercase tracking-wide leading-tight">
-              CKB&rsquo;08 e.V.
+            <span className="font-lobster text-[20px] font-normal text-black leading-none tracking-normal whitespace-nowrap">
+              Cannstatter Kurve Berlin e.V.
             </span>
           </Link>
 
@@ -126,7 +126,7 @@ export function Navbar() {
         </div>
 
         {/* ===== Mobile navbar (<md) ===== */}
-        <div className="md:hidden relative h-[100px] bg-ckb-gray overflow-hidden">
+        <div className="md:hidden relative h-[84px] bg-ckb-gray overflow-hidden">
           <div className="flex items-center h-full px-4 relative">
             {/* Hamburger */}
             <button
@@ -157,37 +157,34 @@ export function Navbar() {
               )}
             </button>
 
-            {/* Brand */}
-            <div className="flex-1 flex items-center justify-center gap-3 relative z-10 px-2">
-              <Image
-                src="/images/logo-ckb.svg"
-                alt="CKB Wappen"
-                width={56}
-                height={57}
-                className="h-14 w-14 grayscale"
-              />
-              <p className="font-poplar text-2xl text-black uppercase leading-tight">
-                CKB&rsquo;08 e.V.
+            {/* Brand — gray wappen removed on mobile, allow text to wrap so red can be bigger */}
+            <div className="flex-1 flex items-center justify-center relative z-10 px-2">
+              <p className="font-lobster text-[20px] font-normal text-black leading-tight tracking-normal text-center">
+                Cannstatter Kurve
+                <br />
+                Berlin e.V.
               </p>
             </div>
 
-            {/* Red diagonal triangle — top right, constant angle */}
+            {/* Red diagonal — wraps a larger wappen, same angle as desktop stripe */}
             <div
-              className="absolute top-0 right-0 w-[45%] sm:w-[40%] h-full"
-              style={{ clipPath: "polygon(100% 0, 100% 100%, 40% 0)" }}
+              className="absolute top-0 right-0 w-[70px] h-full"
+              style={{
+                clipPath: "polygon(100% 0, 100% 100%, 0 100%, 18px 0)",
+              }}
             >
               <div className="absolute inset-0 bg-ckb-red" />
-            </div>
-            {/* Wappen — fixed size */}
-            <div className="absolute top-[10px] right-[10px] w-[60px] h-[60px] z-10">
-              <Image
-                src="/images/ckb-wappen.svg"
-                alt=""
-                fill
-                className="object-contain"
-                style={{ filter: "brightness(0) invert(1)" }}
-                aria-hidden="true"
-              />
+              {/* Wappen — bigger than the red and shifted left; clipped by the polygon */}
+              <div className="absolute top-0 -left-[22px] w-[92px] h-full z-10">
+                <Image
+                  src="/images/ckb-wappen.svg"
+                  alt=""
+                  fill
+                  className="object-contain"
+                  style={{ filter: "brightness(0) invert(1)" }}
+                  aria-hidden="true"
+                />
+              </div>
             </div>
           </div>
         </div>
