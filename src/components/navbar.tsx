@@ -50,15 +50,8 @@ export function Navbar() {
       <nav className="relative shrink-0 z-30">
         {/* ===== Desktop navbar (lg+) ===== */}
         <div className="hidden lg:flex items-center h-[105px] bg-ckb-gray px-10 xl:px-16">
-          {/* Logo + brand name */}
-          <Link href="/" className="flex items-center gap-4 shrink-0">
-            <Image
-              src="/images/logo-ckb.svg"
-              alt="CKB Wappen"
-              width={88}
-              height={90}
-              className="h-[88px] w-[88px] grayscale"
-            />
+          {/* Brand name — gray wappen removed */}
+          <Link href="/" className="flex items-center shrink-0">
             <span className="font-lobster text-[20px] font-normal text-black leading-none tracking-normal whitespace-nowrap">
               Cannstatter Kurve Berlin e.V.
             </span>
@@ -79,16 +72,9 @@ export function Navbar() {
         </div>
 
         {/* ===== Tablet navbar (md – lg) ===== */}
-        <div className="hidden md:flex lg:hidden flex-col bg-ckb-gray px-6 py-5 relative overflow-hidden min-h-[150px]">
-          {/* Logo + brand text */}
-          <Link href="/" className="relative z-10 flex items-center gap-3">
-            <Image
-              src="/images/logo-ckb.svg"
-              alt="CKB Wappen"
-              width={72}
-              height={73}
-              className="h-[72px] w-[72px] grayscale"
-            />
+        <div className="hidden md:flex lg:hidden flex-col justify-center bg-ckb-gray px-6 py-3 relative overflow-hidden min-h-[120px]">
+          {/* Brand text — gray wappen removed */}
+          <Link href="/" className="relative z-10 flex items-center">
             <span className="font-lobster text-[20px] font-normal text-black leading-none tracking-normal whitespace-nowrap">
               Cannstatter Kurve Berlin e.V.
             </span>
@@ -106,22 +92,24 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* Red diagonal triangle — top right */}
+          {/* Red diagonal — same angle direction as desktop & mobile, wappen clipped by the polygon */}
           <div
-            className="absolute top-0 right-0 w-[180px] h-[180px]"
-            style={{ clipPath: "polygon(100% 0, 100% 100%, 25% 0)" }}
+            className="absolute top-0 right-0 w-[130px] h-full"
+            style={{
+              clipPath: "polygon(100% 0, 100% 100%, 0 100%, 28px 0)",
+            }}
           >
             <div className="absolute inset-0 bg-ckb-red" />
-          </div>
-          <div className="absolute top-[8px] right-[8px] w-[95px] h-[95px] z-10">
-            <Image
-              src="/images/ckb-wappen.svg"
-              alt=""
-              fill
-              className="object-contain"
-              style={{ filter: "brightness(0) invert(1)" }}
-              aria-hidden="true"
-            />
+            <div className="absolute top-0 -left-[20px] w-[150px] h-full z-10">
+              <Image
+                src="/images/ckb-wappen.svg"
+                alt=""
+                fill
+                className="object-contain"
+                style={{ filter: "brightness(0) invert(1)" }}
+                aria-hidden="true"
+              />
+            </div>
           </div>
         </div>
 
