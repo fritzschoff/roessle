@@ -51,7 +51,15 @@ export function Navbar() {
         {/* ===== Desktop navbar (lg+) ===== */}
         <div className="hidden lg:flex items-center h-[105px] bg-ckb-gray px-10 xl:px-16">
           {/* Brand name — gray wappen removed */}
-          <Link href="/" className="flex items-center shrink-0">
+          <Link href="/" className="flex items-center gap-3 shrink-0">
+            <Image
+              src="/images/header-group.svg"
+              alt=""
+              width={66}
+              height={68}
+              priority
+              aria-hidden="true"
+            />
             <span className="font-lobster text-[20px] font-normal text-black leading-none tracking-normal whitespace-nowrap">
               Cannstatter Kurve Berlin e.V.
             </span>
