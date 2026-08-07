@@ -13,9 +13,7 @@ export async function createTermin(formData: FormData) {
   if (!session?.user?.id) throw new Error("Nicht autorisiert");
 
   const gegner = formData.get("gegner") as string;
-  const gegnerLogo = (formData.get("gegnerLogo") as string) || null;
   const wettbewerb = (formData.get("wettbewerb") as string) || null;
-  const wettbewerbLogo = (formData.get("wettbewerbLogo") as string) || null;
   const datum = formData.get("datum") as string;
   const uhrzeit = formData.get("uhrzeit") as string;
   const ort = (formData.get("ort") as string) || "Das Rössle";
@@ -25,9 +23,7 @@ export async function createTermin(formData: FormData) {
   await db.insert(termine).values({
     id: ulid(),
     gegner,
-    gegnerLogo,
     wettbewerb,
-    wettbewerbLogo,
     datum,
     uhrzeit,
     ort,
@@ -45,9 +41,7 @@ export async function updateTermin(id: string, formData: FormData) {
   if (!session?.user?.id) throw new Error("Nicht autorisiert");
 
   const gegner = formData.get("gegner") as string;
-  const gegnerLogo = (formData.get("gegnerLogo") as string) || null;
   const wettbewerb = (formData.get("wettbewerb") as string) || null;
-  const wettbewerbLogo = (formData.get("wettbewerbLogo") as string) || null;
   const datum = formData.get("datum") as string;
   const uhrzeit = formData.get("uhrzeit") as string;
   const ort = (formData.get("ort") as string) || "Das Rössle";
@@ -56,7 +50,7 @@ export async function updateTermin(id: string, formData: FormData) {
 
   await db
     .update(termine)
-    .set({ gegner, gegnerLogo, wettbewerb, wettbewerbLogo, datum, uhrzeit, ort, oeffnungszeit, beschreibung })
+    .set({ gegner, wettbewerb, datum, uhrzeit, ort, oeffnungszeit, beschreibung })
     .where(eq(termine.id, id));
 
   revalidatePath("/termine");

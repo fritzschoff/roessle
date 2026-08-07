@@ -32,9 +32,7 @@ export default async function EditTerminPage({
           action={updateAction}
           defaults={{
             gegner: termin.gegner,
-            gegnerLogo: termin.gegnerLogo,
             wettbewerb: termin.wettbewerb,
-            wettbewerbLogo: termin.wettbewerbLogo,
             datum: termin.datum,
             uhrzeit: termin.uhrzeit,
             ort: termin.ort,

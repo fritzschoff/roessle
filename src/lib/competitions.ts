@@ -1,14 +1,17 @@
-export type Competition = {
-  name: string;
-  logo: string;
-};
+/** Wettbewerbe nur als Text — die Logos der Wettbewerbe dürfen wir nicht verwenden. */
+export const NO_COMPETITION = "Kein Wettbewerb";
 
-export const COMPETITIONS: Competition[] = [
-  { name: "Kein Wettbewerb", logo: "" },
-  { name: "Bundesliga", logo: "/images/competitions/bundesliga.png" },
-  { name: "DFB-Pokal", logo: "/images/competitions/dfb-pokal.svg" },
-  { name: "Champions League", logo: "/images/competitions/champions-league.svg" },
-  { name: "Europa League", logo: "/images/competitions/europa-league.svg" },
-  { name: "Conference League", logo: "/images/competitions/conference-league.svg" },
-  { name: "Freundschaftsspiel", logo: "/images/competitions/freundschaftsspiel.svg" },
+export const COMPETITIONS: string[] = [
+  NO_COMPETITION,
+  "Bundesliga",
+  "DFB-Pokal",
+  "Champions League",
+  "Europa League",
+  "Conference League",
+  "Freundschaftsspiel",
 ];
+
+/** Gibt den anzeigbaren Wettbewerb zurück — oder null, wenn keiner gesetzt ist. */
+export function competitionLabel(wettbewerb: string | null | undefined) {
+  return wettbewerb && wettbewerb !== NO_COMPETITION ? wettbewerb : null;
+}

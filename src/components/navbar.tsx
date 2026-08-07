@@ -50,15 +50,14 @@ export function Navbar() {
       <nav className="relative shrink-0 z-30">
         {/* ===== Desktop navbar (lg+) ===== */}
         <div className="hidden lg:flex items-center h-[105px] bg-ckb-gray px-10 xl:px-16">
-          {/* Brand name — gray wappen removed */}
+          {/* Wappen in Farbe + Schriftzug — immer Link zur Startseite */}
           <Link href="/" className="flex items-center gap-3 shrink-0">
             <Image
-              src="/images/header-group.svg"
-              alt=""
-              width={66}
+              src="/images/logo-ckb.svg"
+              alt="Cannstatter Kurve Berlin e.V. — zur Startseite"
+              width={67}
               height={68}
               priority
-              aria-hidden="true"
             />
             <span className="font-lobster text-[20px] font-normal text-black leading-none tracking-normal whitespace-nowrap">
               Cannstatter Kurve Berlin e.V.
@@ -81,8 +80,15 @@ export function Navbar() {
 
         {/* ===== Tablet navbar (md – lg) ===== */}
         <div className="hidden md:flex lg:hidden flex-col justify-center bg-ckb-gray px-6 py-3 relative overflow-hidden min-h-[120px]">
-          {/* Brand text — gray wappen removed */}
-          <Link href="/" className="relative z-10 flex items-center">
+          {/* Wappen in Farbe + Schriftzug — immer Link zur Startseite */}
+          <Link href="/" className="relative z-10 flex w-fit items-center gap-2.5">
+            <Image
+              src="/images/logo-ckb.svg"
+              alt="Cannstatter Kurve Berlin e.V. — zur Startseite"
+              width={44}
+              height={45}
+              priority
+            />
             <span className="font-lobster text-[20px] font-normal text-black leading-none tracking-normal whitespace-nowrap">
               Cannstatter Kurve Berlin e.V.
             </span>
@@ -101,14 +107,16 @@ export function Navbar() {
           </div>
 
           {/* Red diagonal — same angle direction as desktop & mobile, wappen clipped by the polygon */}
-          <div
-            className="absolute top-0 right-0 w-[130px] h-full"
+          <Link
+            href="/"
+            aria-label="Zur Startseite"
+            className="absolute top-0 right-0 w-[130px] h-full z-20"
             style={{
               clipPath: "polygon(100% 0, 100% 100%, 0 100%, 28px 0)",
             }}
           >
-            <div className="absolute inset-0 bg-ckb-red" />
-            <div className="absolute top-0 -left-[20px] w-[150px] h-full z-10">
+            <span className="absolute inset-0 bg-ckb-red" />
+            <span className="absolute top-0 -left-[20px] w-[150px] h-full z-10 block">
               <Image
                 src="/images/ckb-wappen.svg"
                 alt=""
@@ -117,8 +125,8 @@ export function Navbar() {
                 style={{ filter: "brightness(0) invert(1)" }}
                 aria-hidden="true"
               />
-            </div>
-          </div>
+            </span>
+          </Link>
         </div>
 
         {/* ===== Mobile navbar (<md) ===== */}
@@ -163,15 +171,17 @@ export function Navbar() {
             </div>
 
             {/* Red diagonal — wraps a larger wappen, same angle as desktop stripe */}
-            <div
-              className="absolute top-0 right-0 w-[70px] h-full"
+            <Link
+              href="/"
+              aria-label="Zur Startseite"
+              className="absolute top-0 right-0 w-[70px] h-full z-20"
               style={{
                 clipPath: "polygon(100% 0, 100% 100%, 0 100%, 18px 0)",
               }}
             >
-              <div className="absolute inset-0 bg-ckb-red" />
+              <span className="absolute inset-0 bg-ckb-red" />
               {/* Wappen — bigger than the red and shifted left; clipped by the polygon */}
-              <div className="absolute top-0 -left-[22px] w-[92px] h-full z-10">
+              <span className="absolute top-0 -left-[22px] w-[92px] h-full z-10 block">
                 <Image
                   src="/images/ckb-wappen.svg"
                   alt=""
@@ -180,8 +190,8 @@ export function Navbar() {
                   style={{ filter: "brightness(0) invert(1)" }}
                   aria-hidden="true"
                 />
-              </div>
-            </div>
+              </span>
+            </Link>
           </div>
         </div>
       </nav>

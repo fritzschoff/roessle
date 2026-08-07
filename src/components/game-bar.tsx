@@ -1,9 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { VFB } from "@/lib/teams";
+import { findTeam, VFB } from "@/lib/teams";
+import { competitionLabel } from "@/lib/competitions";
+import { CompetitionLabel, TeamChip } from "./team-chip";
 import type { BlogPost, Termin } from "@/lib/schema";
 
 function formatShortDate(datum: string) {
@@ -14,26 +15,10 @@ function formatShortDate(datum: string) {
   };
 }
 
-function TeamLogo({
-  src,
-  alt,
-  size,
-}: {
-  src: string | null | undefined;
-  alt: string;
-  size: number;
-}) {
-  if (!src) return null;
-  return (
-    <div style={{ width: size, height: size }} className="relative shrink-0">
-      <Image src={src} alt={alt} fill className="object-contain" />
-    </div>
-  );
-}
-
 /* === Left red panel: featured next game === */
 function FeaturedGame({ termin }: { termin: Termin }) {
   const { weekday, dayMonth } = formatShortDate(termin.datum);
+  const wettbewerb = competitionLabel(termin.wettbewerb);
   return (
     <Link
       href="/termine"
@@ -45,30 +30,23 @@ function FeaturedGame({ termin }: { termin: Termin }) {
       <p className="text-[11px] font-bold uppercase tracking-[0.18em] opacity-90 text-center leading-tight">
         Die nächsten Spiele live im Rössle
       </p>
-      <div className="flex items-center justify-center gap-3">
-        <TeamLogo src={VFB.logo} alt="VfB Stuttgart" size={58} />
+      <div className="flex items-center justify-center gap-2">
+        <TeamChip team={VFB} size="md" short />
 
-        <div className="flex flex-col items-center bg-black/15 rounded px-3 py-2 min-w-[88px]">
+        <div className="flex flex-col items-center bg-black/15 rounded px-2.5 py-2 min-w-[82px]">
           <p className="font-bold text-lg leading-none">{dayMonth}</p>
           <p className="text-[11px] leading-tight mt-0.5">
             {weekday}: {termin.uhrzeit}
           </p>
-          {termin.wettbewerbLogo && (
-            <div className="mt-1.5">
-              <TeamLogo
-                src={termin.wettbewerbLogo}
-                alt={termin.wettbewerb ?? ""}
-                size={30}
-              />
-            </div>
+          {wettbewerb && (
+            <CompetitionLabel
+              name={wettbewerb}
+              className="text-[9px] mt-1.5 opacity-90"
+            />
           )}
         </div>
 
-        <TeamLogo
-          src={termin.gegnerLogo ?? "/images/teams/placeholder.svg"}
-          alt={termin.gegner}
-          size={58}
-        />
+        <TeamChip team={findTeam(termin.gegner)} size="md" short />
       </div>
     </Link>
   );
@@ -159,30 +137,23 @@ function BlogSlider({ posts }: { posts: BlogPost[] }) {
 /* === Right bottom: small game cards row === */
 function SmallGame({ termin }: { termin: Termin }) {
   const { weekday, dayMonth } = formatShortDate(termin.datum);
+  const wettbewerb = competitionLabel(termin.wettbewerb);
   return (
     <Link
       href="/termine"
       className="flex items-center gap-2 shrink-0 hover:opacity-70 transition-opacity"
     >
-      <TeamLogo src={VFB.logo} alt="VfB Stuttgart" size={28} />
+      <TeamChip team={VFB} size="sm" short />
       <div className="flex flex-col items-center text-black leading-none">
-        {termin.wettbewerbLogo && (
-          <TeamLogo
-            src={termin.wettbewerbLogo}
-            alt={termin.wettbewerb ?? ""}
-            size={14}
-          />
+        {wettbewerb && (
+          <CompetitionLabel name={wettbewerb} className="text-[8px] text-black/60" />
         )}
         <p className="font-bold text-[13px] mt-0.5">{dayMonth}</p>
         <p className="text-[10px] text-black/60 mt-0.5">
           {weekday}: {termin.uhrzeit}
         </p>
       </div>
-      <TeamLogo
-        src={termin.gegnerLogo ?? "/images/teams/placeholder.svg"}
-        alt={termin.gegner}
-        size={28}
-      />
+      <TeamChip team={findTeam(termin.gegner)} size="sm" short />
     </Link>
   );
 }

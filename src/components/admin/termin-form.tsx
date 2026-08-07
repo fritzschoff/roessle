@@ -1,17 +1,19 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
-import { TEAMS, type Team } from "@/lib/teams";
-import { COMPETITIONS, type Competition } from "@/lib/competitions";
+import { findTeam, TEAMS } from "@/lib/teams";
+import {
+  COMPETITIONS,
+  competitionLabel,
+  NO_COMPETITION,
+} from "@/lib/competitions";
+import { TeamChip } from "@/components/team-chip";
 
 type Props = {
   action: (formData: FormData) => void | Promise<void>;
   defaults?: {
     gegner?: string;
-    gegnerLogo?: string | null;
     wettbewerb?: string | null;
-    wettbewerbLogo?: string | null;
     datum?: string;
     uhrzeit?: string;
     ort?: string;
@@ -22,39 +24,25 @@ type Props = {
 };
 
 export function TerminForm({ action, defaults = {}, submitLabel }: Props) {
-  const initialTeam =
-    TEAMS.find((t) => t.name === defaults.gegner) ?? TEAMS[0];
-  const initialComp =
-    COMPETITIONS.find((c) => c.name === defaults.wettbewerb) ??
-    COMPETITIONS[0];
-
-  const [selectedTeam, setSelectedTeam] = useState<Team>(initialTeam);
-  const [selectedComp, setSelectedComp] = useState<Competition>(initialComp);
+  const [gegner, setGegner] = useState(defaults.gegner ?? TEAMS[0].name);
 
   return (
     <form action={action} className="space-y-6">
-      {/* Team selector */}
+      {/* Team selector — Vereine werden nur als Text mit Klubfarbe angezeigt */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor="gegner"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           Gegner *
         </label>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 relative shrink-0">
-            <Image
-              src={selectedTeam.logo}
-              alt={selectedTeam.name}
-              fill
-              className="object-contain"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-            />
-          </div>
           <select
+            id="gegner"
+            name="gegner"
             className="flex-1 rounded-md border border-gray-300 px-3 py-2 focus:border-ckb-red focus:ring-ckb-red"
-            value={selectedTeam.name}
-            onChange={(e) => {
-              const team = TEAMS.find((t) => t.name === e.target.value)!;
-              setSelectedTeam(team);
-            }}
+            value={gegner}
+            onChange={(e) => setGegner(e.target.value)}
           >
             {TEAMS.map((team) => (
               <option key={team.name} value={team.name}>
@@ -62,43 +50,30 @@ export function TerminForm({ action, defaults = {}, submitLabel }: Props) {
               </option>
             ))}
           </select>
+          <TeamChip team={findTeam(gegner)} size="lg" />
         </div>
-        <input type="hidden" name="gegner" value={selectedTeam.name} />
-        <input type="hidden" name="gegnerLogo" value={selectedTeam.logo} />
       </div>
 
       {/* Competition selector */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor="wettbewerb"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           Wettbewerb
         </label>
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 relative shrink-0">
-            <Image
-              src={selectedComp.logo}
-              alt={selectedComp.name}
-              fill
-              className="object-contain"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-            />
-          </div>
-          <select
-            className="flex-1 rounded-md border border-gray-300 px-3 py-2 focus:border-ckb-red focus:ring-ckb-red"
-            value={selectedComp.name}
-            onChange={(e) => {
-              const comp = COMPETITIONS.find((c) => c.name === e.target.value)!;
-              setSelectedComp(comp);
-            }}
-          >
-            {COMPETITIONS.map((comp) => (
-              <option key={comp.name} value={comp.name}>
-                {comp.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <input type="hidden" name="wettbewerb" value={selectedComp.name} />
-        <input type="hidden" name="wettbewerbLogo" value={selectedComp.logo} />
+        <select
+          id="wettbewerb"
+          name="wettbewerb"
+          defaultValue={competitionLabel(defaults.wettbewerb) ?? ""}
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-ckb-red focus:ring-ckb-red"
+        >
+          {COMPETITIONS.map((comp) => (
+            <option key={comp} value={comp === NO_COMPETITION ? "" : comp}>
+              {comp}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

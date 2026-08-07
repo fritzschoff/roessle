@@ -1,30 +1,16 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { db } from "@/lib/db";
 import { termine } from "@/lib/schema";
 import { asc } from "drizzle-orm";
-import { VFB } from "@/lib/teams";
+import { findTeam, VFB } from "@/lib/teams";
+import { competitionLabel } from "@/lib/competitions";
+import { CompetitionLabel, TeamChip } from "@/components/team-chip";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Termine",
 };
-
-function TeamBadge({
-  src,
-  alt,
-}: {
-  src: string | null | undefined;
-  alt: string;
-}) {
-  if (!src) return null;
-  return (
-    <div className="relative w-10 h-10 shrink-0">
-      <Image src={src} alt={alt} fill className="object-contain" />
-    </div>
-  );
-}
 
 export default async function TerminePage() {
   const allTermine = await db
@@ -68,20 +54,22 @@ export default async function TerminePage() {
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <TeamBadge src={VFB.logo} alt="VfB Stuttgart" />
-                  {t.wettbewerbLogo && (
-                    <TeamBadge src={t.wettbewerbLogo} alt={t.wettbewerb ?? ""} />
-                  )}
-                  <TeamBadge
-                    src={t.gegnerLogo ?? "/images/teams/placeholder.svg"}
-                    alt={t.gegner}
-                  />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-base leading-tight truncate">
-                      VfB Stuttgart vs. {t.gegner}
-                    </p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <TeamChip team={VFB} size="lg" />
+                      <span className="text-sm opacity-70">vs.</span>
+                      <TeamChip team={findTeam(t.gegner)} size="lg" />
+                      {competitionLabel(t.wettbewerb) && (
+                        <CompetitionLabel
+                          name={competitionLabel(t.wettbewerb)!}
+                          className={`text-[10px] ${
+                            index === 0 ? "text-white/80" : "text-gray-500"
+                          }`}
+                        />
+                      )}
+                    </div>
                     <p
-                      className={`text-sm ${
+                      className={`text-sm mt-1.5 ${
                         index === 0 ? "text-white/80" : "text-gray-500"
                       }`}
                     >
@@ -133,16 +121,15 @@ export default async function TerminePage() {
             {past.map((t) => (
               <div key={t.id} className="rounded-lg p-4 bg-ckb-gray">
                 <div className="flex items-center gap-3">
-                  <TeamBadge src={VFB.logo} alt="VfB Stuttgart" />
-                  <TeamBadge
-                    src={t.gegnerLogo ?? "/images/teams/placeholder.svg"}
-                    alt={t.gegner}
-                  />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold truncate">
-                      VfB Stuttgart vs. {t.gegner}
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <TeamChip team={VFB} size="md" />
+                      <span className="text-sm opacity-70">vs.</span>
+                      <TeamChip team={findTeam(t.gegner)} size="md" />
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1.5">
+                      {formatDate(t.datum)}
                     </p>
-                    <p className="text-sm text-gray-500">{formatDate(t.datum)}</p>
                   </div>
                   <p className="text-sm text-gray-500 shrink-0">{t.uhrzeit} Uhr</p>
                 </div>
