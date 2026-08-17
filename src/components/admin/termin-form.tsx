@@ -14,6 +14,7 @@ type Props = {
   defaults?: {
     gegner?: string;
     wettbewerb?: string | null;
+    heim?: boolean;
     datum?: string;
     uhrzeit?: string;
     ort?: string;
@@ -54,6 +55,27 @@ export function TerminForm({ action, defaults = {}, submitLabel }: Props) {
         </div>
       </div>
 
+      {/* Heim oder auswärts — bestimmt die Reihenfolge der Paarung */}
+      <div>
+        <label
+          htmlFor="heim"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Heim oder auswärts
+        </label>
+        <select
+          id="heim"
+          name="heim"
+          defaultValue={defaults.heim === false ? "auswaerts" : "heim"}
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-ckb-red focus:ring-ckb-red"
+        >
+          <option value="heim">Heimspiel (VfB : {findTeam(gegner).abbr})</option>
+          <option value="auswaerts">
+            Auswärtsspiel ({findTeam(gegner).abbr} : VfB)
+          </option>
+        </select>
+      </div>
+
       {/* Competition selector */}
       <div>
         <label
@@ -92,16 +114,19 @@ export function TerminForm({ action, defaults = {}, submitLabel }: Props) {
         </div>
         <div>
           <label htmlFor="uhrzeit" className="block text-sm font-medium text-gray-700 mb-1">
-            Anstoß *
+            Anstoß
           </label>
           <input
             id="uhrzeit"
             name="uhrzeit"
             type="time"
-            required
             defaultValue={defaults.uhrzeit ?? ""}
             className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-ckb-red focus:ring-ckb-red"
           />
+          <p className="mt-1 text-xs text-gray-500">
+            Leer lassen, solange die DFL noch nicht terminiert hat — auf der
+            Seite steht dann „offen“.
+          </p>
         </div>
       </div>
 

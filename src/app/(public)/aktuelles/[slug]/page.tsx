@@ -7,10 +7,18 @@ import { blogPosts } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { BlogContent } from "@/components/blog-content";
 
-export const dynamic = "force-dynamic";
-
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+/** Veröffentlichte Beiträge beim Build vorrendern — neue kommen per ISR dazu. */
+export async function generateStaticParams() {
+  const posts = await db
+    .select({ slug: blogPosts.slug })
+    .from(blogPosts)
+    .where(eq(blogPosts.status, "published"));
+
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({

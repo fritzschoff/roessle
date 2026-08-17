@@ -50,7 +50,10 @@ export const termine = sqliteTable("termine", {
   id: text("id").primaryKey(),
   gegner: text("gegner").notNull(),
   wettbewerb: text("wettbewerb"),
+  /** Heimspiel des VfB? Steuert die Reihenfolge der Paarung (VfB : Gegner). */
+  heim: integer("heim", { mode: "boolean" }).notNull().default(true),
   datum: text("datum").notNull(),
+  /** Leer, solange die Anstoßzeit noch nicht terminiert ist. */
   uhrzeit: text("uhrzeit").notNull(),
   ort: text("ort").notNull().default("Das Rössle"),
   oeffnungszeit: text("oeffnungszeit"),

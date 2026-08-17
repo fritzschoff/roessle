@@ -6,8 +6,6 @@ import { findTeam, VFB } from "@/lib/teams";
 import { competitionLabel } from "@/lib/competitions";
 import { CompetitionLabel, TeamChip } from "@/components/team-chip";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "Termine",
 };
@@ -29,6 +27,12 @@ export default async function TerminePage() {
       month: "2-digit",
       year: "numeric",
     });
+  }
+
+  /** Bei Auswärtsspielen steht der Gegner links. */
+  function paarung(t: (typeof allTermine)[number]) {
+    const gegner = findTeam(t.gegner);
+    return t.heim ? ([VFB, gegner] as const) : ([gegner, VFB] as const);
   }
 
   return (
@@ -56,9 +60,9 @@ export default async function TerminePage() {
                 <div className="flex items-center gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <TeamChip team={VFB} size="lg" />
+                      <TeamChip team={paarung(t)[0]} size="lg" />
                       <span className="text-sm opacity-70">vs.</span>
-                      <TeamChip team={findTeam(t.gegner)} size="lg" />
+                      <TeamChip team={paarung(t)[1]} size="lg" />
                       {competitionLabel(t.wettbewerb) && (
                         <CompetitionLabel
                           name={competitionLabel(t.wettbewerb)!}
@@ -78,7 +82,8 @@ export default async function TerminePage() {
                   </div>
                   <div className="text-sm text-right shrink-0">
                     <p>
-                      <strong>Anstoß:</strong> {t.uhrzeit} Uhr
+                      <strong>Anstoß:</strong>{" "}
+                      {t.uhrzeit ? `${t.uhrzeit} Uhr` : "noch offen"}
                     </p>
                     {t.oeffnungszeit && (
                       <p
@@ -123,15 +128,17 @@ export default async function TerminePage() {
                 <div className="flex items-center gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <TeamChip team={VFB} size="md" />
+                      <TeamChip team={paarung(t)[0]} size="md" />
                       <span className="text-sm opacity-70">vs.</span>
-                      <TeamChip team={findTeam(t.gegner)} size="md" />
+                      <TeamChip team={paarung(t)[1]} size="md" />
                     </div>
                     <p className="text-sm text-gray-500 mt-1.5">
                       {formatDate(t.datum)}
                     </p>
                   </div>
-                  <p className="text-sm text-gray-500 shrink-0">{t.uhrzeit} Uhr</p>
+                  <p className="text-sm text-gray-500 shrink-0">
+                    {t.uhrzeit ? `${t.uhrzeit} Uhr` : "Zeit offen"}
+                  </p>
                 </div>
               </div>
             ))}

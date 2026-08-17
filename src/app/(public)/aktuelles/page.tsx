@@ -5,8 +5,6 @@ import { db } from "@/lib/db";
 import { blogPosts } from "@/lib/schema";
 import { desc, eq } from "drizzle-orm";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "Aktuelles",
 };

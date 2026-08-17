@@ -7,8 +7,24 @@
   --color-ckb-red-light: #a01e18;
   --color-ckb-dark: #2c2c2c;
   --color-ckb-gray: #f1f1f1;
+
+  /* Inter wird in app/layout.tsx geladen — ohne diese Zeile greift font-sans
+     auf den System-Stack zurück und die Seite sieht nicht aus wie im Figma. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-rajdhani: var(--font-rajdhani-src), ui-sans-serif, system-ui, sans-serif;
   --font-lobster: "Lobster", cursive;
   --font-poplar: "PoplarStd", sans-serif;
+
+  /* Leichte Schatten statt Flächen — Kopf- und Fußleiste sind jetzt weiß. */
+  --shadow-bar-top: 0 4px 8.5px 0 rgb(0 0 0 / 0.1);
+  --shadow-bar-bottom: -7px -3px 4px 0 rgb(0 0 0 / 0.09);
+}
+
+:root {
+  /* Breite des Figma-Designs. Breitere Bildschirme zentrieren den Inhalt;
+     der Überhang wird links weiß und rechts rot gefüllt. */
+  --layout-max: 1512px;
+  --layout-gutter: max(0px, calc((100vw - var(--layout-max)) / 2));
 }
 
 .scrollbar-none {

@@ -49,8 +49,8 @@ export async function createBlogPost(formData: FormData) {
     tickerExpiry,
   });
 
-  revalidatePath("/aktuelles");
-  revalidatePath("/");
+  // Der News-Ticker steckt im Layout und steht damit auf jeder Seite.
+  revalidatePath("/", "layout");
   redirect("/admin/blog");
 }
 
@@ -95,8 +95,8 @@ export async function updateBlogPost(id: string, formData: FormData) {
     })
     .where(eq(blogPosts.id, id));
 
-  revalidatePath("/aktuelles");
-  revalidatePath("/");
+  // Der News-Ticker steckt im Layout und steht damit auf jeder Seite.
+  revalidatePath("/", "layout");
   redirect("/admin/blog");
 }
 
@@ -106,7 +106,7 @@ export async function deleteBlogPost(id: string) {
 
   await db.delete(blogPosts).where(eq(blogPosts.id, id));
 
-  revalidatePath("/aktuelles");
-  revalidatePath("/");
+  // Der News-Ticker steckt im Layout und steht damit auf jeder Seite.
+  revalidatePath("/", "layout");
   redirect("/admin/blog");
 }

@@ -7,7 +7,17 @@ import { Footer } from "@/components/footer";
 import { GameBar } from "@/components/game-bar";
 import { NewsTicker } from "@/components/news-ticker";
 
-export const dynamic = "force-dynamic";
+/*
+  Spielbalken und News-Ticker stecken in diesem Layout und lesen die Datenbank —
+  sie erscheinen also auf jeder Seite. Der niedrigste revalidate-Wert entlang
+  eines Routen-Pfads bestimmt die gesamte Route, dieser Wert ist damit die
+  Untergrenze für alle Unterseiten: einmal täglich neu bauen.
+
+  Ändert jemand im Admin einen Termin oder Beitrag, greift nicht dieser Wert,
+  sondern das revalidatePath(…, "layout") in den Server Actions — dann ist die
+  Änderung sofort auf allen Seiten sichtbar.
+*/
+export const revalidate = 86400;
 
 export default async function PublicLayout({
   children,
@@ -17,7 +27,7 @@ export default async function PublicLayout({
   const now = new Date();
   const today = now.toISOString().split("T")[0];
 
-  const [tickerRows, upcomingTermine, latestPosts] = await Promise.all([
+  const [tickerRows, upcomingTermine] = await Promise.all([
     db
       .select()
       .from(blogPosts)
@@ -36,12 +46,6 @@ export default async function PublicLayout({
       .where(gte(termineTable.datum, today))
       .orderBy(termineTable.datum)
       .limit(8),
-    db
-      .select()
-      .from(blogPosts)
-      .where(eq(blogPosts.status, "published"))
-      .orderBy(desc(blogPosts.publishedAt))
-      .limit(4),
   ]);
 
   const tickerPost = tickerRows[0];
@@ -55,8 +59,20 @@ export default async function PublicLayout({
     : "";
 
   return (
-    <div className="h-dvh flex flex-col overflow-hidden">
-      <div className="flex-1 flex flex-col relative overflow-hidden">
+    /*
+      Auf sehr breiten Bildschirmen bleibt das Layout auf Designbreite und wird
+      zentriert. Der Überhang links ist weiß (wie die Inhaltsfläche), rechts rot
+      (wie der diagonale Keil) — so wirkt die Seite auch im Ultrawide geschlossen.
+    */
+    <div className="relative flex h-dvh justify-center overflow-hidden bg-white">
+      <div
+        className="absolute inset-y-0 right-0 bg-ckb-red"
+        style={{ width: "var(--layout-gutter)" }}
+        aria-hidden="true"
+      />
+
+      <div className="relative flex h-full w-full max-w-[var(--layout-max)] flex-col overflow-hidden">
+        <div className="flex-1 flex flex-col relative overflow-hidden">
         {/* Full-height red diagonal stripe — desktop only (lg+) */}
         <div
           className="hidden lg:block absolute top-0 right-0 bottom-0 w-[38%] xl:w-[33%] 2xl:w-[30%] z-40 pointer-events-none"
@@ -70,6 +86,7 @@ export default async function PublicLayout({
               src="/images/ckb-wappen.svg"
               alt=""
               fill
+              priority
               className="object-contain object-right"
               style={{ filter: "brightness(0) invert(1)" }}
               aria-hidden="true"
@@ -103,11 +120,12 @@ export default async function PublicLayout({
           {children}
         </main>
 
-        {/* Game bar — featured game (left red) + blog slider + small games (right gray) */}
-        <GameBar termine={upcomingTermine} blogPosts={latestPosts} />
-      </div>
+        {/* Game bar — featured game (left red) + small games */}
+        <GameBar termine={upcomingTermine} />
+        </div>
 
-      <Footer />
+        <Footer />
+      </div>
     </div>
   );
 }

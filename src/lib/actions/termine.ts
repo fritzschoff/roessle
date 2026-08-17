@@ -14,8 +14,10 @@ export async function createTermin(formData: FormData) {
 
   const gegner = formData.get("gegner") as string;
   const wettbewerb = (formData.get("wettbewerb") as string) || null;
+  const heim = formData.get("heim") !== "auswaerts";
   const datum = formData.get("datum") as string;
-  const uhrzeit = formData.get("uhrzeit") as string;
+  // Leer erlaubt: Anstoßzeit steht bei späteren Spieltagen oft noch nicht fest.
+  const uhrzeit = ((formData.get("uhrzeit") as string) || "").trim();
   const ort = (formData.get("ort") as string) || "Das Rössle";
   const oeffnungszeit = (formData.get("oeffnungszeit") as string) || null;
   const beschreibung = (formData.get("beschreibung") as string) || null;
@@ -24,6 +26,7 @@ export async function createTermin(formData: FormData) {
     id: ulid(),
     gegner,
     wettbewerb,
+    heim,
     datum,
     uhrzeit,
     ort,
@@ -31,8 +34,9 @@ export async function createTermin(formData: FormData) {
     beschreibung,
   });
 
-  revalidatePath("/termine");
-  revalidatePath("/");
+  // Der Spielbalken steckt im Layout und steht damit auf jeder Seite — deshalb
+  // die ganze Layout-Ebene erneuern, nicht nur Startseite und Termine.
+  revalidatePath("/", "layout");
   redirect("/admin/termine");
 }
 
@@ -42,19 +46,22 @@ export async function updateTermin(id: string, formData: FormData) {
 
   const gegner = formData.get("gegner") as string;
   const wettbewerb = (formData.get("wettbewerb") as string) || null;
+  const heim = formData.get("heim") !== "auswaerts";
   const datum = formData.get("datum") as string;
-  const uhrzeit = formData.get("uhrzeit") as string;
+  // Leer erlaubt: Anstoßzeit steht bei späteren Spieltagen oft noch nicht fest.
+  const uhrzeit = ((formData.get("uhrzeit") as string) || "").trim();
   const ort = (formData.get("ort") as string) || "Das Rössle";
   const oeffnungszeit = (formData.get("oeffnungszeit") as string) || null;
   const beschreibung = (formData.get("beschreibung") as string) || null;
 
   await db
     .update(termine)
-    .set({ gegner, wettbewerb, datum, uhrzeit, ort, oeffnungszeit, beschreibung })
+    .set({ gegner, wettbewerb, heim, datum, uhrzeit, ort, oeffnungszeit, beschreibung })
     .where(eq(termine.id, id));
 
-  revalidatePath("/termine");
-  revalidatePath("/");
+  // Der Spielbalken steckt im Layout und steht damit auf jeder Seite — deshalb
+  // die ganze Layout-Ebene erneuern, nicht nur Startseite und Termine.
+  revalidatePath("/", "layout");
   redirect("/admin/termine");
 }
 
@@ -64,7 +71,8 @@ export async function deleteTermin(id: string) {
 
   await db.delete(termine).where(eq(termine.id, id));
 
-  revalidatePath("/termine");
-  revalidatePath("/");
+  // Der Spielbalken steckt im Layout und steht damit auf jeder Seite — deshalb
+  // die ganze Layout-Ebene erneuern, nicht nur Startseite und Termine.
+  revalidatePath("/", "layout");
   redirect("/admin/termine");
 }

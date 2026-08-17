@@ -1,12 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { findTeam, VFB } from "@/lib/teams";
 import { competitionLabel } from "@/lib/competitions";
-import { CompetitionLabel, TeamChip } from "./team-chip";
-import type { BlogPost, Termin } from "@/lib/schema";
+import type { Termin } from "@/lib/schema";
 
+/** „Samstag“ + „04. APR“ für den großen Datumsblock. */
+function formatFeaturedDate(datum: string) {
+  const d = new Date(datum + "T12:00:00");
+  const month = d
+    .toLocaleDateString("de-DE", { month: "short" })
+    .replace(".", "")
+    .toUpperCase();
+  return {
+    weekday: d.toLocaleDateString("de-DE", { weekday: "long" }),
+    dayMonth: `${d.toLocaleDateString("de-DE", { day: "2-digit" })}. ${month}`,
+  };
+}
+
+/** Heimspiel: VfB steht links. Auswärts dreht sich die Paarung um. */
+function paarung(termin: Termin) {
+  const gegner = findTeam(termin.gegner);
+  return termin.heim ? ([VFB, gegner] as const) : ([gegner, VFB] as const);
+}
+
+/** Solange die DFL nicht terminiert hat, ist `uhrzeit` leer. */
+function anstoss(termin: Termin) {
+  return termin.uhrzeit || "offen";
+}
+
+/** „04.04.“ + „Sa“ für die kleinen Spielkacheln. */
 function formatShortDate(datum: string) {
   const d = new Date(datum + "T12:00:00");
   return {
@@ -15,145 +39,155 @@ function formatShortDate(datum: string) {
   };
 }
 
-/* === Left red panel: featured next game === */
+/**
+ * Die große rote Paarung: VfB — Datum/Anstoß — Gegner.
+ * Identisch auf Mobil und Desktop, nur die Höhe unterscheidet sich.
+ */
 function FeaturedGame({ termin }: { termin: Termin }) {
-  const { weekday, dayMonth } = formatShortDate(termin.datum);
+  const { weekday, dayMonth } = formatFeaturedDate(termin.datum);
   const wettbewerb = competitionLabel(termin.wettbewerb);
+  const [links, rechts] = paarung(termin);
+
   return (
-    <Link
-      href="/termine"
-      className="relative shrink-0 bg-ckb-red text-white hover:bg-ckb-red-light transition-colors
-                 p-2 lg:pr-10
-                 flex flex-col items-center justify-center gap-2 w-full lg:w-[280px] h-full
-                 lg:[clip-path:polygon(0_0,100%_0,calc(100%-28px)_100%,0_100%)]"
-    >
-      <p className="text-[11px] font-bold uppercase tracking-[0.18em] opacity-90 text-center leading-tight">
-        Die nächsten Spiele live im Rössle
-      </p>
-      <div className="flex items-center justify-center gap-2">
-        <TeamChip team={VFB} size="md" short />
+    <div className="flex h-full items-center justify-center gap-3 px-4 text-white">
+      <span className="font-rajdhani font-bold leading-none text-[clamp(34px,13vw,55px)] lg:text-[55px]">
+        {links.abbr}
+      </span>
 
-        <div className="flex flex-col items-center bg-black/15 rounded px-2.5 py-2 min-w-[82px]">
-          <p className="font-bold text-lg leading-none">{dayMonth}</p>
-          <p className="text-[11px] leading-tight mt-0.5">
-            {weekday}: {termin.uhrzeit}
-          </p>
-          {wettbewerb && (
-            <CompetitionLabel
-              name={wettbewerb}
-              className="text-[9px] mt-1.5 opacity-90"
-            />
-          )}
-        </div>
-
-        <TeamChip team={findTeam(termin.gegner)} size="md" short />
+      <div className="flex shrink-0 flex-col items-center leading-none">
+        <span className="font-rajdhani text-[12px] uppercase leading-[14px]">
+          {weekday}
+        </span>
+        <span className="font-rajdhani text-[15px] font-bold uppercase leading-[16px]">
+          {dayMonth}
+        </span>
+        <span className="mt-1 rounded-[8.5px] bg-white px-3 py-[3px] font-rajdhani text-[20px] font-bold leading-none text-ckb-red">
+          {anstoss(termin)}
+        </span>
+        {wettbewerb && (
+          <span className="mt-1.5 text-[9.5px] font-bold uppercase tracking-wide">
+            {wettbewerb}
+          </span>
+        )}
       </div>
-    </Link>
-  );
-}
 
-/* === Right top: blog-post slider === */
-function BlogSlider({ posts }: { posts: BlogPost[] }) {
-  const [index, setIndex] = useState(0);
-  if (posts.length === 0) {
-    return <div className="flex-1" />;
-  }
-  const post = posts[Math.min(index, posts.length - 1)];
-
-  const plain = (post.excerpt || post.content.replace(/<[^>]*>/g, " "))
-    .replace(/\s+/g, " ")
-    .trim();
-  const snippet = plain.length > 180 ? plain.slice(0, 180).trim() + "…" : plain;
-
-  const goNext = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-    setIndex((i) => (i + 1) % posts.length);
-  };
-
-  return (
-    <div className="relative flex-1 px-6 lg:px-10 pt-2.5 pb-4 min-w-0">
-      <Link
-        href={`/aktuelles/${post.slug}`}
-        className="block text-black hover:opacity-80"
-      >
-        <h3 className="font-bold text-[15px] underline leading-tight">
-          {post.title}
-        </h3>
-      </Link>
-      <p className="text-[13px] text-black/85 mt-1 leading-snug">
-        {snippet}{" "}
-        <Link
-          href={`/aktuelles/${post.slug}`}
-          className="italic underline whitespace-nowrap"
-        >
-          Mehr lesen
-        </Link>
-      </p>
-
-      {posts.length > 1 && (
-        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
-          {posts.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIndex(i);
-              }}
-              aria-label={`Beitrag ${i + 1}`}
-              className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                i === index ? "bg-black/70" : "bg-black/25"
-              }`}
-            />
-          ))}
-        </div>
-      )}
-
-      {posts.length > 1 && (
-        <button
-          type="button"
-          onClick={goNext}
-          aria-label="Nächster Beitrag"
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-black/50 hover:text-black/80 p-1"
-        >
-          <svg
-            viewBox="0 0 10 16"
-            className="w-3 h-4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M2 1l6 7-6 7" />
-          </svg>
-        </button>
-      )}
+      <span className="font-rajdhani font-bold leading-none text-[clamp(34px,13vw,55px)] lg:text-[55px]">
+        {rechts.abbr}
+      </span>
     </div>
   );
 }
 
-/* === Right bottom: small game cards row === */
+/** Weißer Reiter über dem roten Balken, rechte Kante angeschrägt. */
+function BarLabel({ text, className = "" }: { text: string; className?: string }) {
+  return (
+    <p
+      className={`text-[12px] uppercase text-black ${className}`}
+      style={{ letterSpacing: "0.01em" }}
+    >
+      <span className="font-normal">{text} </span>
+      <span className="font-bold">Live im Rössle</span>
+    </p>
+  );
+}
+
+/**
+ * Mobil: alle kommenden Spiele nebeneinander, per Wischen durchblätterbar.
+ * Nutzt natives Scroll-Snapping — echtes Touch-Swipen ohne zusätzliche Library.
+ */
+function MobileGameCarousel({ termine }: { termine: Termin[] }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [index, setIndex] = useState(0);
+
+  const handleScroll = () => {
+    const el = trackRef.current;
+    if (!el || el.clientWidth === 0) return;
+    setIndex(Math.round(el.scrollLeft / el.clientWidth));
+  };
+
+  const goTo = (i: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
+  };
+
+  const current = Math.min(index, termine.length - 1);
+
+  return (
+    <div className="lg:hidden">
+      {/* Mobil läuft der Reiter über die volle Breite — so ist er im Figma. */}
+      <div className="bg-white px-6 py-1.5">
+        <BarLabel
+          text={termine.length > 1 ? "Die nächsten Spiele" : "Das nächste Spiel"}
+          className="text-center"
+        />
+      </div>
+
+      <div className="relative bg-ckb-red">
+        <div
+          ref={trackRef}
+          onScroll={handleScroll}
+          className="flex h-[101px] snap-x snap-mandatory overflow-x-auto scrollbar-none"
+          role="group"
+          aria-roledescription="Karussell"
+          aria-label="Kommende Spiele"
+        >
+          {termine.map((t) => (
+            <Link
+              key={t.id}
+              href="/termine"
+              className="w-full shrink-0 snap-center snap-always"
+              aria-label={`${paarung(t)[0].name} gegen ${paarung(t)[1].name}, ${
+                t.uhrzeit ? `Anstoß ${t.uhrzeit} Uhr` : "Anstoßzeit offen"
+              }`}
+            >
+              <FeaturedGame termin={t} />
+            </Link>
+          ))}
+        </div>
+
+        {termine.length > 1 && (
+          <div className="absolute inset-x-0 bottom-1.5 flex items-center justify-center gap-1">
+            {termine.map((t, i) => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => goTo(i)}
+                aria-label={`Spiel ${i + 1} von ${termine.length}`}
+                aria-current={i === current}
+                className={`size-1.5 rounded-full transition-colors ${
+                  i === current ? "bg-white" : "bg-white/40"
+                }`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* === Desktop rechts: kleine Spielkacheln === */
 function SmallGame({ termin }: { termin: Termin }) {
   const { weekday, dayMonth } = formatShortDate(termin.datum);
   const wettbewerb = competitionLabel(termin.wettbewerb);
+  const [links, rechts] = paarung(termin);
+
   return (
     <Link
       href="/termine"
-      className="flex items-center gap-2 shrink-0 hover:opacity-70 transition-opacity"
+      className="flex shrink-0 flex-col items-center text-black transition-opacity hover:opacity-70"
     >
-      <TeamChip team={VFB} size="sm" short />
-      <div className="flex flex-col items-center text-black leading-none">
-        {wettbewerb && (
-          <CompetitionLabel name={wettbewerb} className="text-[8px] text-black/60" />
-        )}
-        <p className="font-bold text-[13px] mt-0.5">{dayMonth}</p>
-        <p className="text-[10px] text-black/60 mt-0.5">
-          {weekday}: {termin.uhrzeit}
-        </p>
-      </div>
-      <TeamChip team={findTeam(termin.gegner)} size="sm" short />
+      <p className="text-[10px] leading-none">
+        <span className="font-bold">{dayMonth}.</span> {weekday}:{" "}
+        <span className="font-bold">{anstoss(termin)}</span>
+      </p>
+      <p className="font-rajdhani text-[21px] font-bold leading-tight">
+        {links.abbr} : {rechts.abbr}
+      </p>
+      {wettbewerb && (
+        <p className="text-[10px] leading-none">{wettbewerb}</p>
+      )}
     </Link>
   );
 }
@@ -161,7 +195,7 @@ function SmallGame({ termin }: { termin: Termin }) {
 function SmallGamesRow({ termine }: { termine: Termin[] }) {
   if (termine.length === 0) return null;
   return (
-    <div className="flex items-center gap-8 px-6 lg:px-10 py-2 border-t border-black/10 overflow-x-auto scrollbar-none">
+    <div className="flex flex-1 items-center gap-10 overflow-x-auto scrollbar-none px-10">
       {termine.map((t) => (
         <SmallGame key={t.id} termin={t} />
       ))}
@@ -170,26 +204,44 @@ function SmallGamesRow({ termine }: { termine: Termin[] }) {
 }
 
 /* === Container === */
-export function GameBar({
-  termine,
-  blogPosts,
-}: {
-  termine: Termin[];
-  blogPosts: BlogPost[];
-}) {
+export function GameBar({ termine }: { termine: Termin[] }) {
   if (termine.length === 0) return null;
   const featured = termine[0];
   const others = termine.slice(1, 5);
 
   return (
-    <div className="flex bg-ckb-gray">
-      {/* Left: featured game card (always visible) */}
-      <FeaturedGame termin={featured} />
+    <div className="relative z-20 shrink-0">
+      {/* Mobil & Tablet: wischbares Karussell */}
+      <MobileGameCarousel termine={termine.slice(0, 5)} />
 
-      {/* Right: blog slider + small games — desktop only */}
-      <div className="hidden lg:flex flex-1 flex-col min-w-0 lg:mr-[38%] xl:mr-[33%] 2xl:mr-[30%]">
-        <BlogSlider posts={blogPosts} />
-        <SmallGamesRow termine={others} />
+      {/* Desktop: Reiter über rotem Panel, rechts die kleinen Spiele */}
+      <div className="hidden lg:block">
+        {/*
+          Eigener weißer Reiter mit schräg abgeschnittener Kante — parallel zum
+          roten Panel darunter. Rechts davon bleibt es transparent, damit das
+          Hintergrundfoto durchscheint statt einer durchgehenden weißen Linie.
+        */}
+        <div
+          className="flex h-[35px] w-[341px] items-center bg-white pl-10"
+          style={{
+            clipPath: "polygon(0 0, 100% 0, calc(100% - 11px) 100%, 0 100%)",
+          }}
+        >
+          <BarLabel text="Die nächsten Spiele" />
+        </div>
+
+        <div className="flex bg-white">
+          <Link
+            href="/termine"
+            className="block h-[92px] w-[365px] shrink-0 bg-ckb-red transition-colors hover:bg-ckb-red-light [clip-path:polygon(0_0,100%_0,calc(100%-28px)_100%,0_100%)]"
+          >
+            <FeaturedGame termin={featured} />
+          </Link>
+
+          <div className="flex min-w-0 flex-1 items-center lg:mr-[38%] xl:mr-[33%] 2xl:mr-[30%]">
+            <SmallGamesRow termine={others} />
+          </div>
+        </div>
       </div>
     </div>
   );

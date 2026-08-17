@@ -7,7 +7,8 @@ import { useState } from "react";
 import { MobileMenu } from "./mobile-menu";
 
 const navLinks = [
-  { href: "/ueber-uns", label: "Über uns" },
+  // „Über uns“ hat keine eigene Seite mehr — der Text steht auf der Startseite.
+  { href: "/", label: "Über uns" },
   { href: "/das-roessle", label: "Das Rössle" },
   { href: "/aktuelles", label: "Aktuelles" },
   { href: "/termine", label: "Termine" },
@@ -43,30 +44,43 @@ export function Navbar() {
   const pathname = usePathname();
 
   const isActive = (href: string) =>
-    pathname === href || pathname.startsWith(href + "/");
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
     <>
       <nav className="relative shrink-0 z-30">
         {/* ===== Desktop navbar (lg+) ===== */}
-        <div className="hidden lg:flex items-center h-[105px] bg-ckb-gray px-10 xl:px-16">
-          {/* Wappen in Farbe + Schriftzug — immer Link zur Startseite */}
-          <Link href="/" className="flex items-center gap-3 shrink-0">
-            <Image
-              src="/images/logo-ckb.svg"
-              alt="Cannstatter Kurve Berlin e.V. — zur Startseite"
-              width={67}
-              height={68}
-              priority
-            />
-            <span className="font-lobster text-[20px] font-normal text-black leading-none tracking-normal whitespace-nowrap">
-              Cannstatter Kurve Berlin e.V.
+        <div className="hidden lg:flex items-center h-[87px] bg-white shadow-bar-top relative">
+          {/* Roter Keil links, Kante oben breiter als unten — Wappen darin weiß */}
+          <Link
+            href="/"
+            aria-label="Zur Startseite"
+            className="absolute top-0 left-0 h-full w-[122px] z-10"
+            style={{ clipPath: "polygon(0 0, 100% 0, calc(100% - 20px) 100%, 0 100%)" }}
+          >
+            <span className="absolute inset-0 bg-ckb-red" />
+            <span className="absolute left-[20px] top-[11px] block w-[67px] h-[68px]">
+              <Image
+                src="/images/ckb-wappen.svg"
+                alt=""
+                fill
+                className="object-contain"
+                style={{ filter: "brightness(0) invert(1)" }}
+                aria-hidden="true"
+                priority
+              />
             </span>
           </Link>
 
-          {/* Nav links — stay left of the red stripe area */}
-          <div className="flex-1" />
-          <div className="flex items-center gap-5 mr-[40%] xl:mr-[35%] 2xl:mr-[32%]">
+          <Link
+            href="/"
+            className="ml-[144px] shrink-0 font-lobster text-[20px] font-normal text-black leading-none tracking-normal whitespace-nowrap"
+          >
+            Cannstatter Kurve Berlin e.V.
+          </Link>
+
+          {/* Nav links direkt rechts vom Schriftzug, klar vor dem roten Keil rechts */}
+          <div className="flex items-center gap-5 ml-[54px]">
             {navLinks.map((link) => (
               <NavLink
                 key={link.href}
@@ -76,10 +90,11 @@ export function Navbar() {
               />
             ))}
           </div>
+          <div className="flex-1" />
         </div>
 
         {/* ===== Tablet navbar (md – lg) ===== */}
-        <div className="hidden md:flex lg:hidden flex-col justify-center bg-ckb-gray px-6 py-3 relative overflow-hidden min-h-[120px]">
+        <div className="hidden md:flex lg:hidden flex-col justify-center bg-white shadow-bar-top px-6 py-3 relative overflow-hidden min-h-[120px]">
           {/* Wappen in Farbe + Schriftzug — immer Link zur Startseite */}
           <Link href="/" className="relative z-10 flex w-fit items-center gap-2.5">
             <Image
@@ -130,7 +145,7 @@ export function Navbar() {
         </div>
 
         {/* ===== Mobile navbar (<md) ===== */}
-        <div className="md:hidden relative h-[84px] bg-ckb-gray overflow-hidden">
+        <div className="md:hidden relative h-[84px] bg-white shadow-bar-top overflow-hidden">
           <div className="flex items-center h-full px-4 relative">
             {/* Hamburger */}
             <button
@@ -163,7 +178,8 @@ export function Navbar() {
 
             {/* Brand — gray wappen removed on mobile, allow text to wrap so red can be bigger */}
             <div className="flex-1 flex items-center justify-center relative z-10 px-2">
-              <p className="font-lobster text-[20px] font-normal text-black leading-tight tracking-normal text-center">
+              {/* 24px bei 390px Viewport (Figma), schrumpft auf schmalen Geräten mit */}
+              <p className="font-lobster text-[clamp(18px,6.15vw,24px)] font-normal text-black leading-[1.1] tracking-normal text-center">
                 Cannstatter Kurve
                 <br />
                 Berlin e.V.
@@ -186,6 +202,7 @@ export function Navbar() {
                   src="/images/ckb-wappen.svg"
                   alt=""
                   fill
+                  priority
                   className="object-contain"
                   style={{ filter: "brightness(0) invert(1)" }}
                   aria-hidden="true"

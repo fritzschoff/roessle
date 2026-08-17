@@ -33,6 +33,7 @@ export default async function EditTerminPage({
           defaults={{
             gegner: termin.gegner,
             wettbewerb: termin.wettbewerb,
+            heim: termin.heim,
             datum: termin.datum,
             uhrzeit: termin.uhrzeit,
             ort: termin.ort,
