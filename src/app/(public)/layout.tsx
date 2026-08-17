@@ -64,15 +64,17 @@ export default async function PublicLayout({
       zentriert. Der Überhang links ist weiß (wie die Inhaltsfläche), rechts rot
       (wie der diagonale Keil) — so wirkt die Seite auch im Ultrawide geschlossen.
     */
-    <div className="relative flex h-dvh justify-center overflow-hidden bg-white">
-      <div
-        className="absolute inset-y-0 right-0 bg-ckb-red"
-        style={{ width: "var(--layout-gutter)" }}
-        aria-hidden="true"
-      />
+    <div className="flex h-dvh flex-col overflow-hidden bg-white">
+      {/* Inhaltsbereich: zentriert auf Designbreite, rechter Überhang rot */}
+      <div className="relative flex flex-1 justify-center overflow-hidden">
+        <div
+          className="absolute inset-y-0 right-0 bg-ckb-red"
+          style={{ width: "var(--layout-gutter)" }}
+          aria-hidden="true"
+        />
 
-      <div className="relative flex h-full w-full max-w-[var(--layout-max)] flex-col overflow-hidden">
-        <div className="flex-1 flex flex-col relative overflow-hidden">
+        <div className="relative flex h-full w-full max-w-[var(--layout-max)] flex-col overflow-hidden">
+          <div className="flex-1 flex flex-col relative overflow-hidden">
         {/* Full-height red diagonal stripe — desktop only (lg+) */}
         <div
           className="hidden lg:block absolute top-0 right-0 bottom-0 w-[38%] xl:w-[33%] 2xl:w-[30%] z-40 pointer-events-none"
@@ -122,10 +124,12 @@ export default async function PublicLayout({
 
         {/* Game bar — featured game (left red) + small games */}
         <GameBar termine={upcomingTermine} />
+          </div>
         </div>
-
-        <Footer />
       </div>
+
+      {/* Footer läuft über die volle Breite durch, auch im Ultrawide */}
+      <Footer />
     </div>
   );
 }
